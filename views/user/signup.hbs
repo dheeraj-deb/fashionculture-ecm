@@ -1,0 +1,115 @@
+{{!-- <div class="container d-flex align-items-center justify-content-center" style="height: 100vh;">
+    <article class="card-body mx-auto" style="max-width: 400px;">
+        <h4 class="card-title mt-3 text-center">SignUp</h4>
+        <p class="text-center">Get started with your free account</p>
+        
+        <form action="/user_registration" method="post" id="userForm">
+            <div class="form-group input-group">
+
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                </div>
+                <input class="form-control" placeholder="First name" name="f_name" type="text">
+
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                </div>
+                <input class="form-control" placeholder="Last name" name="l_name" type="text">
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                </div>
+                <input class="form-control" placeholder="Email address" name="email" type="email">
+            </div> <!-- form-group// -->
+
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                </div>
+                <select class="custom-select" style="max-width: 120px;">
+                    <option selected="">+91</option>
+                </select>
+                <input class="form-control" placeholder="Phone number" name="mobile" type="text">
+            </div> <!-- form-group// -->
+
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                </div>
+                <input class="form-control" placeholder="Create password" name="password" type="password">
+            </div> <!-- form-group// -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+            </div> <!-- form-group// -->
+            <p class="text-center">Have an account? <a href="/user_signin">Log In</a> </p>
+        </form>
+    </article>
+</div> <!-- card.// --> --}}
+
+{{!------------------------------------------------------------------------------------}}
+
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+            <!-- Register Card -->
+            <div class="card">
+                <div class="card-body">
+                    <!-- Logo -->
+                    <div class="app-brand justify-content-center">
+                        <a href="" class="app-brand-link gap-2">
+                            <span class="app-brand-text fs-3 text-body fw-bolder">SignUp</span>
+                        </a>
+                    </div>
+                    <!-- /Logo -->
+                    <h4 class="mb-2">Adventure starts here 🚀</h4>
+                    <p class="mb-2">Make your app management easy and fun!</p>
+                    {{#if errorMessage}}
+                    <p class="text-danger">{{errorMessage}}</p>
+                    {{/if}}
+                    <form id="userForm" class="mb-2" action="/user_registration" method="POST">
+                        <div class="mb-3">
+                            <label for="f_name" class="form-label">First name</label>
+                            <input type="text" class="form-control" id="f_name" name="f_name"
+                                placeholder="Enter your First name" autofocus />
+                        </div>
+                        <div class="mb-2">
+                            <label for="l_name" class="form-label">Last name</label>
+                            <input type="text" class="form-control" id="l_name" name="l_name"
+                                placeholder="Enter your Last name" autofocus />
+                        </div>
+                        <div class="mb-2">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="email" name="email"
+                                placeholder="Enter your email" />
+                        </div>
+                        <div class="mb-2">
+                            <label for="moblie" class="form-label">Mobile</label>
+                            <input type="text" class="form-control" id="mobile" name="mobile"
+                                placeholder="Enter your mobile number" autofocus />
+                        </div>
+                        <div class="mb-2">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Enter your Password" autofocus />
+                        </div>
+                        
+
+                        
+                        <button class="btn btn-primary d-grid w-100">Sign up</button>
+                    </form>
+
+                    <p class="text-center">
+                        <span>Already have an account?</span>
+                        <a href="/user_signin">
+                            <span>Sign in instead</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <!-- Register Card -->
+        </div>
+    </div>
+</div>

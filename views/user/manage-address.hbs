@@ -1,0 +1,107 @@
+{{>user/header-v4}}
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        {{>user/myprofile-menu}}
+        <div class="col-lg-9 my-lg-0 my-1">
+            <div id="refresh-section">
+                <div id="main-content" class="bg-white border">
+                    {{#each address}}
+                    <div class="order my-3 bg-light d-flex justify-content-between"
+                        style="min-height: 100px !important;">
+                        <div class="row d-block">
+                            <div class="d-flex mb-2">
+                                <h6 class="me-2">{{this._id.name}}</h6>
+                                <h6>{{ this._id.mobile}}</h6>
+                            </div>
+                            <p>{{this._id.address}}, {{this._id.locality}}, {{this._id.district}}, {{this._id.state}},
+                                {{this._id.pincode}}</p>
+                        </div>
+                        <div class=" row d-block">
+                            <button data-bs-toggle="modal" data-bs-target="#modalCenter{{this._id.time}}"
+                                class="btn btn-success mb-2">Edit</button>
+                            <button onclick="deleteAddress('{{this._id.time}}')" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" style="z-index: 1104 !important;" id="modalCenter{{this._id.time}}"
+                        tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <form id="edit-addr-form">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalCenterTitle">Edit Address</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Contact Details</p>
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <input type="text" name="name" value="{{this._id.name}}"
+                                                    class="form-control" placeholder="Name" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <input type="text" name="mobile" value="{{this._id.mobile}}"
+                                                    class="form-control" placeholder="Mobile" />
+                                            </div>
+                                        </div>
+
+                                        <p>Address</p>
+
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <input type="text" onchange="getPostalDetails(event)" name="pincode"
+                                                    id="pincode" value="{{this._id.pincode}}" class="form-control"
+                                                    placeholder="Pincode" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <input type="text" name="address" value="{{this._id.address}}"
+                                                    class="form-control"
+                                                    placeholder="Address (House No, Building,Street, Area)" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <input type="text" name="locality" value="{{this._id.locality}}"
+                                                    class="form-control" placeholder="Locality / Town" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="col mb-0">
+
+                                                <input type="text" name="district" value="{{this._id.district}}"
+                                                    class="form-control" placeholder="District" />
+                                            </div>
+                                            <div class="col mb-0">
+                                                <input type="text" name="state" value="{{this._id.state}}"
+                                                    class="form-control" placeholder="State" />
+                                                <input type="hidden" name="addrId" value="{{this._id.time}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <button type="button" onclick="editAddress('{{this._id.time}}')"
+                                            class="btn btn-primary">Edit
+                                            Address</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

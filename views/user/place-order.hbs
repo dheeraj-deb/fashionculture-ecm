@@ -1,0 +1,280 @@
+{{>user/header-v4}}
+
+<form id="place-order-form">
+    <section class="h-100 gradient-custom" id="refresh-section">
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center my-4">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-header py-3">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="mb-0">ADDRESS</h5>
+                                {{!-- add - new address --}}
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#modalCenter">
+                                    ADD NEW ADDRESS
+                                </button>
+
+                                <!-- Modal -->
+                                {{!-- <form id="add-new-addr-form"> --}}
+                                    <div class="modal fade" style="margin-top: 4rem;" id="modalCenter" tabindex="-1"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalCenterTitle">ADD NEW <ADDRESS>
+                                                        </ADDRESS>
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Contact Details</p>
+                                                    <div class="row">
+                                                        <div class="col mb-3">
+                                                            <input type="text" name="name" id="name"
+                                                                class="form-control" placeholder="Name" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col mb-3">
+                                                            <input type="text" name="mobile" id="mobile"
+                                                                class="form-control" placeholder="Mobile" />
+                                                        </div>
+                                                    </div>
+
+                                                    <p>Address</p>
+
+                                                    <div class="row">
+                                                        <div class="col mb-3">
+                                                            <input type="text" onchange="getPostalDetails(event)"
+                                                                name="pincode" id="pincode" class="form-control"
+                                                                placeholder="Pincode" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col mb-3">
+                                                            <input type="text" name="address" id="address"
+                                                                class="form-control"
+                                                                placeholder="Address (House No, Building,Street, Area)" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col mb-3">
+                                                            <input type="text" name="locality-town" id="locality"
+                                                                class="form-control" placeholder="Locality / Town" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row g-2">
+                                                        <div class="col mb-0">
+
+                                                            <input type="text" name="district" id="district"
+                                                                class="form-control" placeholder="District" />
+                                                        </div>
+                                                        <div class="col mb-0">
+                                                            <input type="text" name="state" id="state"
+                                                                class="form-control" placeholder="State" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                    <button type="button" onclick="submitAddress()"
+                                                        class="btn btn-primary">Add Address</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!--
+                                </form> --}}
+
+
+                                {{!-- / add -new address --}}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- Single item -->
+                            <form action="" id="addressFrm">
+                                {{#each address}}
+                                <div class="row">
+                                    <div>
+                                        <div
+                                            class="address-header d-flex justify-content-between align-items-center mb-1">
+                                            <div class="d-flex justify-content-between d1">
+                                                <div class="d-flex">
+                                                    <input type="radio" checked="checked" name="address" value="{{this._id.time}}"
+                                                        class="me-2">
+                                                    {{!-- <input type="hidden" name="address-id" id=""
+                                                        value="{{this._id.time}},"> --}}
+                                                    <h6>{{this._id.name}}</h6>
+                                                </div>
+                                                <h6>{{this._id.mobile}}</h6>
+                                            </div>
+                                            {{!-- <div>
+                                                <a href="">Edit</a>
+                                            </div> --}}
+                                        </div>
+                                        <div class="addr-body ps-4 mb-2">
+                                            <p>{{this._id.address}}, {{this._id.locality}}, {{this._id.district}},
+                                                {{this._id.state}} - {{this._id.pincode}},</p>
+                                        </div>
+                                        {{!-- <div class="ps-4">
+                                            <button class="btn btn-primary" onclick="placeOrder(event)">Delever
+                                                Here</button>
+                                        </div> --}}
+                                    </div>
+                                </div>
+                                <!-- Single item -->
+                                <hr class="my-4" />
+
+                                {{/each}}
+                            </form>
+
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <p><strong>Expected shipping delivery</strong></p>
+                            <p class="mb-0">12.10.2020 - 14.10.2020</p>
+                        </div>
+                    </div>
+                    <div class="card mb-4 mb-lg-0">
+                        <div class="card-body">
+                            <p><strong>We accept</strong></p>
+                            <img class="me-2" width="45px"
+                                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+                                alt="Visa" />
+                            <img class="me-2" width="45px"
+                                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+                                alt="American Express" />
+                            <img class="me-2" width="45px"
+                                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+                                alt="Mastercard" />
+                            <img class="me-2" width="45px"
+                                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
+                                alt="PayPal acceptance mark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-header py-3">
+                            <h5 class="mb-0">Summary</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                    Products
+                                    <span>$53.98</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    Shipping
+                                    <span>Gratis</span>
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                    <div>
+                                        <strong>Total amount</strong>
+                                        <strong>
+                                            <p class="mb-0">(including VAT)</p>
+                                        </strong>
+                                    </div>
+                                    <span><strong>Rs.{{#if total }} {{total}} {{else}} 0
+                                            {{/if}}</strong></span>
+                                </li>
+                            </ul>
+
+                            <ul class="list-group list-group-flush mb-3">
+                                <div>
+                                    <div class="d-flex align-items-center">
+                                        <input type="radio" name="paymentmethod" value="cod" class="me-2"
+                                            checked="checked">
+                                        <label for="" class="mt-2">Cash On Delivery</label>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <input type="radio" name="paymentmethod" value="online-payment" class="me-2">
+                                        <label for="" class="mt-1">Online Payment</label>
+                                    </div>
+                                </div>
+                            </ul>
+
+                            <button type="button" id="rzp-button1" onclick="placeOrder(event)"
+                                class=" btn btn-primary btn-lg btn-block">
+                                Place Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div>
+        <div class="popup" id="popup">
+            <img src="https://www.pngkey.com/png/detail/26-267424_icon-check-tick-transparent.png" alt="">
+            <h2>Thank You!</h2>
+            <p>Your order placed successfully</p>
+            <button type="button" onclick="closePopup()" class="btn btn-success">Ok</button>
+        </div>
+    </div>
+</form>
+
+<style>
+    .popup {
+        width: 400px;
+        background: #fff;
+        border-radius: 6px;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.1);
+        text-align: center;
+        padding: 0 30px 30px;
+        color: #333;
+        visibility: hidden;
+        transition: transform 0.4s, top 0.4s;
+    }
+
+    .open-popup {
+        visibility: visible;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .popup img {
+        width: 100px;
+        margin-top: -50px;
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .popup h2 {
+        font-size: 38px;
+        font-weight: 500;
+        margin: 30px 0 10px;
+    }
+</style>
+
+{{!--
+<script>
+    let popup = document.getElementById("popup");
+
+    function openPopup() {
+        popup.classList.add("open-popup")
+    }
+
+    function closePopup() {
+        popup.classList.remove("open-popup")
+    }
+</script> --}}
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>

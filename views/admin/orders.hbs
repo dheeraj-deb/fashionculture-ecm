@@ -1,0 +1,185 @@
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+
+        <!-- Menu -->
+        {{>admin/menu}}
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+            <!-- Navbar -->
+            {{>admin/nav}}
+            <!-- / Navbar -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+
+                <div class="container mt-5">
+                    <div class="card">
+                        <h5 class="card-header">Light Table head</h5>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Sl.No</th>
+                                        <th>Date</th>
+                                        <th>Purchaced</th>
+                                        <th>Price</th>
+                                        <th>Payment</th>
+                                        <th>Status</th>
+                                        <th>Products</th>
+                                    </tr>
+                                </thead>
+                                {{#each orders}}
+                                <tbody class="table-border-bottom-0">
+                                    <tr>
+                                        <td>{{inc @index}}</td>
+                                        <td>{{this.orderObj.date}}</td>
+                                        <td>{{this.orderObj.products.length}}</td>
+                                        <td class=""><span
+                                                class="badge bg-label-primary me-1">{{this.orderObj.totalAmount}}</span>
+                                        </td>
+
+                                        <td class=""><span
+                                                class="badge bg-label-primary me-1">{{this.orderObj.paymentmethod}}</span>
+                                        </td>
+                                        <td class="">
+                                            <span>
+
+                                                <select class="form-select"
+                                                    onchange="changeStatus('{{this.orderObj.orderId}}', this.value)"
+                                                    name="status" style="width: 150px; 
+                                                                   width: 130px;
+                                                                   color: #fff;
+                                                                   background-color: #696cff;
+                                                                   font-size: 13px;
+                                                                    color: #fff;">
+                                                    <option selected>{{this.orderObj.status}}</option>
+                                                    <option value="Shipped">Shipped</option>
+                                                    <option value="Pending">Pending</option>
+                                                    <option value="Deliverd">Deliverd</option>
+                                                    <option value="Canceled">Canceled</option>
+                                                </select>
+                                            </span>
+                                        </td>
+                                        <td class=""><span><a style="
+                                         font-size: 13px;
+                                         color: #fff;" data-bs-toggle="modal"
+                                                    data-bs-target="#productmodal{{this.orderObj.orderId}}"
+                                                    class="btn btn-primary" href="">View Products</a></span>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                                <div class="col-lg-4 col-md-3">
+
+                                    <!-- product Modal -->
+                                    <div class="modal fade" id="productmodal{{this.orderObj.orderId}}" tabindex="-1"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalScrollableTitle">Modal title</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="wrapper">
+                                                        <div class="row">
+                                                            {{#each this.orderObj.products}}
+                                                            <div class=" col-6 col-md-4">
+                                                                <div style="
+                                                                display: flex;
+                                                                flex-flow: column;
+                                                                align-items: center;
+                                                                box-shadow: 0px 0px 4px -1px rgb(33 33 33);
+                                                                margin-bottom: 1rem;
+                                                                ">
+                                                                    <img src="/images/{{this.products.img_id.[0]}}"
+                                                                        alt="product image" width="100px" height="100px"
+                                                                        style="object-fit: cover;">
+                                                                    <p class="mb-0">{{this.products.product_name}}</p>
+                                                                    <p class="mb-0">size</p>
+                                                                    <p class="mb-0">price :{{this.products.price}}</p>
+                                                                    <p>qty: {{this.qty}}</p>
+                                                                </div>
+                                                            </div>
+                                                            {{/each}}
+                                                        </div>
+                                                        <div>
+                                                            <h4>Total : {{this.orderObj.totalAmount}}</h4> 
+                                                        </div>
+                                                        <div>
+                                                            <h4 class="mb-0 text-dark">Address</h4>
+                                                            <p class="mb-0">{{this.orderObj.addr.name}}</p>
+                                                            <p class="mb-0">{{this.orderObj.addr.address}}</p>
+                                                            <p class="mb-0">{{this.orderObj.addr.locality}}</p>
+                                                            <p class="mb-0">{{this.orderObj.addr.district}}</p>
+                                                            <p class="mb-0">{{this.orderObj.addr.state}}</p>
+                                                            <p class="mb-0">{{this.orderObj.addr.pincode}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!-- product modal end! --}}
+                                </div>
+                                {{/each}}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- / Content -->
+                <div class="content-backdrop fade"></div>
+            </div>
+            <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+
+
+<script>
+    function viewUser(userId) {
+        $.ajax({
+            url: "/admin/get-user",
+            data: { userId },
+            method: "post",
+            success: (response) => {
+                console.log(response)
+                $("#name").text(response.f_name)
+                $("#email").text(response.email)
+                $("#mobile").text(response.mobile)
+                $("#modalScrollable").modal("show")
+            }
+        })
+    }
+
+    function changeStatus(orderId, status) {
+        console.log(orderId, status)
+        $.ajax({
+            url: '/admin/change-order-status',
+            data: { status, orderId },
+            method: "post",
+            success: (response) => {
+
+            }
+        })
+    }
+
+</script>

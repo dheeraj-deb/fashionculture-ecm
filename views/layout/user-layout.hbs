@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+
+
+  {{#if order}}
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+
+  {{/if}}
+
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+
+  {{!-- login css --}}
+  {{#if isAuth}}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/sneat-utils/assets/vendor/fonts/boxicons.css" />
+  <link rel="stylesheet" href="/sneat-utils/assets/vendor/css/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="/sneat-utils/assets/vendor/css/theme-default.css"
+    class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="/sneat-utils/assets/css/demo.css" />
+  <link rel="stylesheet" href="/sneat-utils/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="/sneat-utils/assets/vendor/css/pages/page-auth.css" />
+  <script src="/sneat-utils/assets/vendor/js/helpers.js"></script>
+  <script src="/sneat-utils/assets/js/config.js"></script>
+  {{/if}}
+
+
+  {{#if Cart}}
+
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Css Styles -->
+  <link rel="stylesheet" href="/user/cart/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/user/cart/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/user/cart/css/elegant-icons.css" type="text/css">
+  <link rel="stylesheet" href="/user/cart/css/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="/user/cart/css/nice-select.css" type="text/css">
+  <link rel="stylesheet" href="/user/cart/css/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="/user/cart/css/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="/user/cart/css/style.css" type="text/css">
+
+  {{/if}}
+
+  {{#if addr}}
+
+  <link rel="stylesheet" href="/user/addr/style.css">
+
+  {{/if}}
+
+
+
+  {{!-- signup css--}}
+
+  {{!-- {{#if isSignUp}}
+  <link rel="stylesheet" href="/stylesheets/user/signup/style.css">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  {{/if}} --}}
+
+  <style>
+    .editBtn:hover {
+      background-color: #d7d4d4 !important;
+      transition: 0.3s ease-out;
+    }
+  </style>
+
+  {{#if user}}
+
+  <link rel="icon" type="image/png" href="stylesheets/user/images/icons/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="/user/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/user/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/user/fonts/iconic/css/material-design-iconic-font.min.css">
+  <link rel="stylesheet" type="text/css" href="/user/fonts/linearicons-v1.0.0/icon-font.min.css">
+  <link rel="stylesheet" type="text/css" href="/user/vendor/animate/animate.css">
+  <link rel="stylesheet" type="text/css" href="/user/vendor/css-hamburgers/hamburgers.min.css">
+  <link rel="stylesheet" type="text/css" href="/user/vendor/animsition/css/animsition.min.css">
+  <link rel="stylesheet" type="text/css" href="/user/vendor/select2/select2.min.css">
+  <link rel="stylesheet" type="text/css" href="/user/vendor/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" type="text/css" href="/user/vendor/slick/slick.css">
+  <link rel="stylesheet" type="text/css" href="/user/vendor/MagnificPopup/magnific-popup.css">
+  <link rel="stylesheet" type="text/css" href="/user/vendor/perfect-scrollbar/perfect-scrollbar.css">
+  <link rel="stylesheet" href="/user/main.css">
+  <link rel="stylesheet" href="/user/util.css">
+  {{/if}}
+
+
+  <title>{{title}}</title>
+</head>
+
+<body>
+
+  {{{body}}}
+
+  {{!--
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script> --}}
+  {{!--
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+    integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+  {{#if isAuth}}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+  {{!-- --------------------------------------------------------------------------------------------- --}}
+  {{!--
+  <script src="/sneat-utils/assets/vendor/libs/jquery/jquery.js"></script> --}}
+  <script src="/sneat-utils/assets/vendor/libs/popper/popper.js"></script>
+  <script src="/sneat-utils/assets/vendor/js/bootstrap.js"></script>
+  <script src="/sneat-utils/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="/sneat-utils/assets/vendor/js/menu.js"></script>
+  <script src="/sneat-utils/assets/js/main.js"></script>
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  {{!-- --------------------------------------------------------------------------------------------- --}}
+  <script src="/user/js/validate.js"></script>
+  {{/if}}
+
+
+  {{#if profile}}
+  <link rel="stylesheet" href="/user/profile/style.css">
+  {{/if}}
+
+  {{#if user}}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  {{!--
+  <script src="/user/vendor/jquery/jquery-3.2.1.min.js"></script> --}}
+  <script src="/user/vendor/animsition/js/animsition.min.js"></script>
+  <script src="/user/vendor/bootstrap/js/popper.js"></script>
+  <script src="/user/vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/user/vendor/select2/select2.min.js"></script>
+  <script>
+    $(".js-select2").each(function () {
+      $(this).select2({
+        minimumResultsForSearch: 20,
+        dropdownParent: $(this).next('.dropDownSelect2')
+      });
+    })
+  </script>
+
+  <script src="/user/vendor/daterangepicker/moment.min.js"></script>
+  <script src="/user/vendor/daterangepicker/daterangepicker.js"></script>
+  <script src="/user/vendor/slick/slick.min.js"></script>
+  <script src="/user/js/slick-custom.js"></script>
+  <script src="/user/vendor/parallax100/parallax100.js"></script>
+  <script>
+    $('.parallax100').parallax100();
+  </script>
+
+  <script src="/user/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+  <script>
+    $('.gallery-lb').each(function () { // the containers for all your galleries
+      $(this).magnificPopup({
+        delegate: 'a', // the selector for gallery item
+        type: 'image',
+        gallery: {
+          enabled: true
+        },
+        mainClass: 'mfp-fade'
+      });
+    });
+  </script>
+  <script src="/user/vendor/isotope/isotope.pkgd.min.js"></script>
+  <script src="/user/vendor/sweetalert/sweetalert.min.js"></script>
+  <script>
+    $('.js-addwish-b2').on('click', function (e) {
+      e.preventDefault();
+    });
+
+    $('.js-addwish-b2').each(function () {
+      var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+      $(this).on('click', function () {
+        swal(nameProduct, "is added to wishlist !", "success");
+
+        $(this).addClass('js-addedwish-b2');
+        $(this).off('click');
+      });
+    });
+
+    $('.js-addcart-b2').on('click', function (e) {
+      e.preventDefault();
+    });
+
+    $('.js-addcart-b2').each(function () {
+      var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+      $(this).on('click', function () {
+        swal(nameProduct, "is added to Cart !", "success");
+
+        $(this).addClass('js-addedwish-b2');
+        $(this).off('click');
+      });
+    });
+
+    $('.js-addwish-detail').each(function () {
+      var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+
+      $(this).on('click', function () {
+        swal(nameProduct, "is added to wishlist !", "success");
+
+        $(this).addClass('js-addedwish-detail');
+        $(this).off('click');
+      });
+    });
+
+    $('.js-addcart-detail').each(function () {
+      var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+      $(this).on('click', function () {
+        swal(nameProduct, "is added to cart !", "success");
+      });
+    });
+
+  </script>
+
+  <script src="/user/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+  <script>
+    $('.js-pscroll').each(function () {
+      $(this).css('position', 'relative');
+      $(this).css('overflow', 'hidden');
+      var ps = new PerfectScrollbar(this, {
+        wheelSpeed: 1,
+        scrollingThreshold: 1000,
+        wheelPropagation: false,
+      });
+
+      $(window).on('resize', function () {
+        ps.update();
+      })
+    });
+  </script>
+
+  <script src="/user/js/main.js"></script>
+  <script src="/user/javascript/filter-category.js"></script>
+  <script src="/user/javascript/ajax.js"></script>
+
+  {{/if}}
+
+
+  {{#if order}}
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.js"></script>
+  <script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+  {{/if}}
+
+  {{#if cart}}
+  <script src="/user/cart/js/jquery-3.3.1.min.js"></script>
+  <script src="/user/cart/js/bootstrap.min.js"></script>
+  <script src="/user/cart/js/jquery.nice-select.min.js"></script>
+  <script src="/user/cart/js/jquery.nicescroll.min.js"></script>
+  <script src="/user/cart/js/jquery.magnific-popup.min.js"></script>
+  <script src="/user/cart/js/jquery.countdown.min.js"></script>
+  <script src="/user/cart/js/jquery.slicknav.js"></script>
+  <script src="/user/cart/js/mixitup.min.js"></script>
+  <script src="/user/cart/js/owl.carousel.min.js"></script>
+  <script src="/user/cart/js/main.js"></script>
+  {{/if}}
+
+</body>
+
+</html>

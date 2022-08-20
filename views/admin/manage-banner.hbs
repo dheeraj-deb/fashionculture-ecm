@@ -1,0 +1,44 @@
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+
+        <!-- Menu -->
+        {{>admin/menu}}
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+            <!-- Navbar -->
+            {{>admin/nav}}
+            <!-- / Navbar -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+               <div class="container mt-5">
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Add Product</h5>
+                            {{#if errorMessage}}
+                            <p class="text-danger">{{ errorMessage}}</p>
+                            {{/if}}
+                        </div>
+
+                        <h1>hbasj</h1>
+
+                    </div>
+               </div>
+               
+               
+            </div>
+            <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+
+

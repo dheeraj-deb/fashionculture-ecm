@@ -1,0 +1,31 @@
+{{>user/header-v4}}
+
+<div class="container mt-4">
+    <table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Address</th>
+            <th>price</th>
+            {{!-- <th>Toatal Price</th> --}}
+            <th>Status</th>
+            <th>options</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each orderDetails}}
+        <tr>
+            <td>{{this.orderDetails.products.products.product_name}}</td>
+            <td>{{this.orderDetails.date}}</td>
+            <td></td>
+            <td>{{this.orderDetails.products.products.price}}</td>
+            {{!-- <td>{{this.orderDetails.totalAmount}}</td> --}}
+            <td>{{this.orderDetails.status}}</td>
+            <td><a href="/product_details/{{this.orderDetails.products.products._id}}" class="btn btn-success">View Product</a></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>
+

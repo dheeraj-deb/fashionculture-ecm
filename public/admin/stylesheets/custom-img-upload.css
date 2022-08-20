@@ -1,0 +1,74 @@
+  .file-drop-area {
+
+      position: relative;
+      display: flex;
+      align-items: center;
+      /*width: 450px;*/
+      max-width: 100%;
+      padding: 25px;
+      border: 1px dashed rgba(255, 255, 255, 0.4);
+      border-radius: 3px;
+      transition: .2s;
+  }
+
+  .choose-file-button {
+
+      flex-shrink: 0;
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      padding: 8px 15px;
+      margin-right: 10px;
+      font-size: 12px;
+      text-transform: uppercase;
+
+  }
+
+  .file-message {
+
+      font-size: small;
+      font-weight: 300;
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+
+  .file-input {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      widows: 100%;
+      cursor: pointer;
+      opacity: 0;
+
+  }
+
+  #divImageMediaPreview{
+    width: 500px !important;
+  }
+
+  #divImageMediaPreview img {
+      width: 150px;
+      height: 150px;
+      padding: 0 !important;
+      object-fit: cover;
+      border: none !important;
+      margin-top: 0.5rem;
+      box-shadow: 1px 1px 5px 1px #B7AEAE;
+      margin-right: 1rem !important;
+  }
+
+
+  .file-drop-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 500px;
+    max-width: 100%;
+    padding: 25px;
+    border: 1px dashed rgba(36, 34, 34, 0.4);
+    border-radius: 3px;
+    transition: .2s;
+  }

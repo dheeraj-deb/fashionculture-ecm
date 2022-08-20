@@ -1,0 +1,49 @@
+{{>user/header-v4}}
+<section style="background-color: #fff;">
+    <div class="container-fluid py-5">
+        <div class="row">
+            {{>user/myprofile-menu}}
+            <div class="col">
+                <div class="card-body">
+                    <form action="/myaccount/edit-profile" method="post">
+                        <!-- Form Row-->
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (first name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputFirstName">First name</label>
+                                <input class="form-control" name="f_name" type="text"
+                                    placeholder="Enter your first name" value="{{userDetails.f_name}}">
+                            </div>
+                            <!-- Form Group (last name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputLastName">Last name</label>
+                                <input class="form-control" name="l_name" type="text" placeholder="Enter your last name"
+                                    value="{{userDetails.l_name}}">
+                            </div>
+                        </div>
+                        <!-- Form Group (email address)-->
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                            <input class="form-control" name="emial" type="email" placeholder="Enter your email address"
+                                value="{{userDetails.email}}">
+                        </div>
+                        <!-- Form Row-->
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (phone number)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputPhone">Phone number</label>
+                                <input class="form-control" name="mobile" type="tel"
+                                    placeholder="Enter your phone number" value="{{userDetails.mobile}}">
+                            </div>
+                        </div>
+                        <!-- Save changes button-->
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    </div>
+</section>

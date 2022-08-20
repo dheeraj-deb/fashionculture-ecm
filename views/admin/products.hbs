@@ -1,0 +1,104 @@
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+
+        <!-- Menu -->
+        {{>admin/menu}}
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+            <!-- Navbar -->
+            {{>admin/nav}}
+            <!-- / Navbar -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+
+                <div class="container mt-5">
+                    <div class="card">
+                        <h5 class="card-header">Light Table head</h5>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Sl.No</th>
+                                        <th>Product</th>
+                                        <th>Brand</th>
+                                        <th>Image</th>
+                                        <th>Actual Price</th>
+                                        <th>Discount Price</th>
+                                        <th>Category</th>
+                                        <th>Stock</th>
+                                        <th>Size</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                {{#each product}}
+                                <tbody class="table-border-bottom-0">
+                                    <tr>
+                                        <td>{{inc @index}}</td>
+                                        <td>{{this.product_name}}</td>
+                                        <td>{{this.brand_name}}</td>
+                                        <td>
+                                            <ul
+                                                class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                                {{#each this.img_id}}
+                                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                    data-bs-placement="top" class="avatar avatar-md pull-up" title="">
+                                                    <img src="/images/{{this}}" alt="Avatar" class="rounded-circle"
+                                                        style="object-fit: cover; " />
+                                                </li>
+                                                {{/each}}
+                                            </ul>
+                                        </td>
+                                        </td>
+                                        <td class=""><span class="badge bg-label-primary me-1">{{this.actual_price}}</span>
+                                        </td>
+                                        <td class=""><span class="badge bg-label-primary me-1">{{this.discount_price}}</span>
+                                        </td>
+                                        <td class=""><span class="badge bg-label-primary me-1">{{this.lookup_category.[0].category}}</span>
+                                        </td>
+                                        <td class=""><span class="badge bg-label-primary me-1">{{this.stock}}</span>
+                                        </td>
+                                        <td class=""><span class="badge bg-label-primary me-1">{{this.size}}</span>
+                                        </td>
+                                        
+
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                    data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="/admin/product/edit/{{this._id}}"><i
+                                                            class="bx bx-edit-alt me-1"></i> Edit</a>
+                                                    <a class="dropdown-item"
+                                                        href="/admin/product/delete/{{this._id}}"><i
+                                                            class="bx bx-trash me-1"></i> Delete</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                                {{/each}}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- / Content -->
+                <div class="content-backdrop fade"></div>
+            </div>
+            <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->

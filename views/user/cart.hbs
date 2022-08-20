@@ -1,0 +1,194 @@
+{{>user/header-v4}}
+
+{{#if products}}
+<!-- breadcrumb -->
+{{!-- toast --}}
+<div class="toast bg-success" role="alert" aria-live="assertive" aria-atomic="true"
+    style="position:absolute; top:50%; right: 34%; z-index: 3000;">
+    <div class="toast-header">
+        <strong class="mr-auto">Notification</strong>
+        <small>0 s ago</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body text-white">
+        Your Coupon is applied successfully!
+    </div>
+</div>
+
+{{!-- !toast --}}
+
+<section class="shopping-cart spad">
+    <div class="container">
+        <div class="row" id="refresh-section">
+            <div class="col-lg-8">
+                <div class="shopping__cart__table">
+                    <table>
+                        <thead>
+                            <tr class="d-flex justify-content-between">
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each products}}
+                            <tr style="display: flex;
+	                                   align-items: center;">
+                                <td class="product__cart__item">
+                                    <div class="product__cart__item__pic">
+                                        <img src="/images/{{this.products.img_id.[0]}}" alt="" style="width: 100px;
+                                            height: 100px;
+                                            object-fit: cover;">
+                                    </div>
+                                    <div class="product__cart__item__text">
+                                        <h6>{{this.products.product_name}}</h6>
+                                        <h5>Rs.{{this.products.discount_price}}</h5>
+                                    </div>
+                                </td>
+                                <td class="quantity__item d-flex d-md-block justify-content-center">
+
+                                    {{!-- quantity --}}
+                                    <input type="hidden" class="prodId" value="{{this.product._id}}">
+                                    <div class="wrap-num-product flex-w  m-0">
+                                        <div onclick="changeQty('{{this._id}}', '{{this.products._id}}','-1', event)"
+                                            {{#when this.qty 'eq' '1' }} style="pointer-events: none;" {{/when}}
+                                            class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                            <i class="fs-16 zmdi zmdi-minus"></i>
+                                        </div>
+
+                                        <input class="mtext-104 cl3 txt-center num-product" type="number"
+                                            name="num-product1" value="{{this.qty}}">
+
+                                        <div onclick="changeQty('{{this._id}}', '{{this.products._id}}', '1', event)"
+                                            class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                            <i class="fs-16 zmdi zmdi-plus"></i>
+                                        </div>
+                                    </div>
+
+
+                                </td>
+                                <td class="cart__price ">Rs.{{this.sum}}</td>
+                                <td class="cart__close"
+                                    onclick="removecCartProduct('{{this._id}}', '{{this.products._id}}')"><i
+                                        class="fa fa-close"></i></td>
+                            </tr>
+
+                            {{/each}}
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn">
+                            <a href="#">Continue Shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="cart__discount">
+                    <h6>Discount codes</h6>
+                    <form class="mb-3">
+                        <input type="text" id="coupon_input" name="coupon_code" placeholder="Coupon code">
+                        <button type="button" onclick="create_coupon_discount(event)">Apply</button>
+                    </form>
+                    <button class="btn btn-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEnd"
+                        aria-controls="offcanvasEnd">Show Coupons</button>
+                </div>
+                <div class="cart__total">
+                    <h6>Cart total</h6>
+                    <ul>
+                        <li>Subtotal <span>Rs.{{total}}</span></li>
+                        <li>Discount <span>Rs.<span id="discount"></span></span></li>
+                        <li>Total <span id="total">Rs.{{total}}</span></li>
+                    </ul>
+                    <a href="/placeorder" class="primary-btn">Proceed to checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{{!-- off --}}
+<div class="col-lg-3 col-md-6">
+    <div class="mt-3">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd" aria-labelledby="offcanvasEndLabel"
+            style="z-index: 1100 !important;">
+            <div class="offcanvas-header">
+                <p></p>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body mx-0 flex-grow-0">
+                {{#each coupon}}
+                <div class="container discount-wrapper" style="height: 300px;">
+                    <div class="row" style="height: 100px; border: 1px solid #b9b0b0">
+                        <div class="col-3" style="border-right: 1px solid #b9b0b0;">
+                            <img src="https://makewebbetter.com/wp-content/uploads/2020/07/eCommerce-digital-coupons.jpg"
+                                style="width: 100%; height: 100px; object-fit: cover;" alt="">
+                        </div>
+                        <div class="col-9 " style="position: relative;">
+                            <h5 class=" mt-2 mb-1">WearAgain</h5>
+                            <p style="line-height:normal;">GET {{this.value}} Discount</p>
+                            <p class="m-0" style="font-size: 12px;">Valid till {{this.end_date}}</p>
+                            {{!-- <p id="copyResult" style="position: absolute; top: 50%; left: 50%;"></p> --}}
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex">
+                                    <p>COUPON :</p>
+                                    <P id="textToCopy">{{this.code}}</P>
+                                    <p id="copyResult"></p>
+                                </div>
+                                <svg id="copyButton" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                                    <path
+                                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                    <path
+                                        d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{{else}}
+
+
+
+<h1>No Cart Products Found!</h1>
+
+{{/if}}
+
+
+<script>
+    const answer = document.getElementById("copyResult");
+    const copy = document.getElementById("copyButton");
+    const selection = window.getSelection();
+    const range = document.createRange();
+    const textToCopy = document.getElementById("textToCopy")
+
+    copy.addEventListener('click', function (e) {
+        range.selectNodeContents(textToCopy);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        const successful = document.execCommand('copy');
+        if (successful) {
+            textToCopy.style = "display:none"
+            answer.innerHTML = 'Copied!';
+        } else {
+            answer.innerHTML = 'Unable to copy!';
+        }
+        window.getSelection().removeAllRanges()
+    });
+
+
+</script>

@@ -1,0 +1,135 @@
+{{>user/header-v4}}
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        {{>user/myprofile-menu}}
+        <div class="col-lg-9 my-lg-0 my-1">
+            <div id="main-content" class="bg-white border">
+                {{#each orderDetails}}
+                <div class="order my-3 bg-light">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="d-flex flex-column justify-content-between order-summary">
+                                <div class="d-flex align-items-center">
+                                    <div class="text-uppercase">Order {{inc @index}}</div>
+                                    <div class="blue-label ms-auto text-uppercase">{{this.orderObj.paymentmethod}}</div>
+                                </div>
+                                <div class="fs-8">{{this.orderObj.date}}</div>
+                                <div class="rating d-flex align-items-center pt-1">
+                                    <img src="https://www.freepnglogos.com/uploads/like-png/like-png-hand-thumb-sign-vector-graphic-pixabay-39.png"
+                                        alt=""><span class="px-2">Rating:</span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="far fa-star"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
+                                <div class="status">Status : {{this.orderObj.status}}</div>
+                                <div class="btn btn-primary text-uppercase" 
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasEnd{{this.orderObj.orderId}}"
+                                    aria-controls="offcanvasEnd">order info</div>
+                            </div>
+                            <div class="progressbar-track">
+                                {{#if this.placed}}
+                                <ul class="progressbar">
+                                    <li id="step-2" class="text-muted green">
+                                        <span class="fas fa-check"></span>
+                                    </li>
+                                    <li id="step-1" class="text-muted green">
+                                        <span class="fas fa-gift"></span>
+                                    </li>
+                                    <li id="step-4" class="text-muted dark">
+                                        <span class="fas fa-truck"></span>
+                                    </li>
+                                    <li id="step-5" class="text-muted dark">
+                                        <span class="fas fa-box-open"></span>
+                                    </li>
+                                </ul>
+                                {{/if}}
+                                {{#if this.shipped}}
+                                <ul class="progressbar">
+                                    <li id="step-2" class="text-muted green">
+                                        <span class="fas fa-check"></span>
+                                    </li>
+                                    <li id="step-1" class="text-muted green">
+                                        <span class="fas fa-gift"></span>
+                                    </li>
+                                    <li id="step-4" class="text-muted green">
+                                        <span class="fas fa-truck"></span>
+                                    </li>
+                                    <li id="step-5" class="text-muted dark">
+                                        <span class="fas fa-box-open"></span>
+                                    </li>
+                                </ul>
+                                {{/if}}
+                                {{#if this.deliverd}}
+                                <ul class="progressbar">
+                                    <li id="step-2" class="text-muted green">
+                                        <span class="fas fa-check"></span>
+                                    </li>
+                                    <li id="step-1" class="text-muted green">
+                                        <span class="fas fa-gift"></span>
+                                    </li>
+                                    <li id="step-4" class="text-muted green">
+                                        <span class="fas fa-truck"></span>
+                                    </li>
+                                    <li id="step-5" class="text-muted green">
+                                        <span class="fas fa-box-open"></span>
+                                    </li>
+                                </ul>
+                                {{/if}}
+                                <div id="tracker"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{!-- offc --}}
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="mt-3">
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd{{this.orderObj.orderId}}"
+                            aria-labelledby="offcanvasEndLabel" style="z-index: 1100 !important;">
+                            <div class="offcanvas-header">
+                                <p></p>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body mx-0 flex-grow-0">
+                                <ul class="header-cart-wrapitem w-full">
+                                    {{#each this.orderObj.products}}
+                                    <li class="header-cart-item flex-w flex-t m-b-12">
+                                        <div class="header-cart-item-img">
+                                            <a href="/product_details/{{this.products._id}}">
+                                                <img src="/images/{{this.products.img_id.[0]}}" alt="IMG">
+                                            </a>
+                                        </div>
+
+                                        <div class="header-cart-item-txt p-t-8">
+                                            <a href="#" class="header-cart-item-name  hov-cl1 trans-04">
+                                                {{this.products.product_name}}
+                                            </a>
+
+                                            <span class="header-cart-item-info">
+                                                price : {{this.products.price}}
+                                            </span>
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+</div>
