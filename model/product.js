@@ -365,8 +365,10 @@ exports.getCartItems = (userId) => {
                     }
                 ]
             ).toArray()
-            // cartItems[0].total = total
-            return resolve(cartItems)
+
+            if(cartItems.length)
+                return resolve(cartItems)
+            resolve()
         }
         resolve()
     })
@@ -392,6 +394,7 @@ exports.incQtyAndTotal = (userId, data) => {
 
 
 exports.deleteCartItem = (data) => {
+    console.log(data);
     return new Promise(async (resolve, reject) => {
         return db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectId(data.cart) },
             {
@@ -399,6 +402,8 @@ exports.deleteCartItem = (data) => {
             }
         ).then((response) => {
             resolve(response)
+        }).catch((err)=>{
+            console.log(err);
         })
     })
 }
@@ -406,7 +411,7 @@ exports.deleteCartItem = (data) => {
 
 exports.getCartTotal = (userId) => {
     return new Promise(async (resolve, reject) => {
-        const total = await db.get().collection(collection.CART_COLLECTION).aggregate(
+        const   cartTotal = await db.get().collection(collection.CART_COLLECTION).aggregate(
             [
                 {
                     $match: {
@@ -443,10 +448,14 @@ exports.getCartTotal = (userId) => {
 
             ]
         ).toArray()
-        if (total) {
-            return resolve(total[0].total)
+        if (cartTotal.length) {
+            return resolve(cartTotal[0].total)
+        }else{
+            resolve()
         }
-        resolve()
+        
+    }).catch((err)=>{
+        console.log(err);
     })
 }
 
@@ -584,7 +593,7 @@ exports.removeFromWislist = (data) => {
 
 exports.getCoupon = () => {
     return new Promise(async (resolve, reject) => {
-        const coupon = await db.get().collection(collection.COUPON_COLLECTION).find().toArray()
+        const coupon = await db.get().collection(collection.COUPON_COLLECTION).find({status:"active"}).toArray()
         resolve(coupon)
     })
 }

@@ -57,10 +57,38 @@
                                                                    font-size: 13px;
                                                                     color: #fff;">
                                                     <option selected>{{this.orderObj.status}}</option>
-                                                    <option value="Shipped">Shipped</option>
-                                                    <option value="Pending">Pending</option>
-                                                    <option value="Deliverd">Deliverd</option>
-                                                    <option value="Canceled">Canceled</option>
+                                                    {{#when this.orderObj.status 'eq' 'Placed'}}
+                                                        <option value="Shipped">Shipped</option>
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Deliverd">Deliverd</option>
+                                                        <option value="Canceled">Canceled</option>
+                                                    {{/when}}
+                                                    {{#when this.orderObj.status 'eq' 'Shipped'}}
+                                                        <option value="Placed">Placed</option>
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Deliverd">Deliverd</option>
+                                                        <option value="Canceled">Canceled</option>
+                                                        <option value="Placed">Placed</option>
+                                                    {{/when}}
+                                                    {{#when this.orderObj.status 'eq' 'Pending'}}
+                                                        <option value="Shipped">Shipped</option>
+                                                        <option value="Deliverd">Deliverd</option>
+                                                        <option value="Canceled">Canceled</option>
+                                                        <option value="Placed">Placed</option>
+                                                    {{/when}}
+                                                    {{#when this.orderObj.status 'eq' 'Deliverd'}}
+                                                        <option value="Shipped">Shipped</option>
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Canceled">Canceled</option>
+                                                        <option value="Placed">Placed</option>
+                                                    {{/when}}
+                                                    {{#when this.orderObj.status 'eq' 'Canceled'}}
+                                                        <option value="Shipped">Shipped</option>
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Deliverd">Deliverd</option>
+                                                        <option value="Placed">Placed</option>
+                                                    {{/when}}
+                                                    
                                                 </select>
                                             </span>
                                         </td>

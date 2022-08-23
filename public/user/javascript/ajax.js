@@ -15,36 +15,107 @@ function changeQty(cartId, productId, count, event) {
 }
 
 function removecCartProduct(cartId, productId) {
-    $.ajax({
-        url: '/cart/removeProduct',
-        data: {
-            cart: cartId,
-            product: productId
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger mr-3'
         },
-        method: 'POST',
-        success: (response) => {
-            $("#refresh-section").load(location.href + " #refresh-section");
+        buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/cart/removeProduct',
+                data: {
+                    cart: cartId,
+                    product: productId
+                },
+                method: 'POST',
+                success: (response) => {
+                    $("#refresh-section").load(location.href + " #refresh-section");
+                }
+            })
+            swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your product has been removed.',
+                'success'
+            )
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+                'Cancelled',
+                'Your imaginary file is safe :)',
+                'error'
+            )
         }
     })
+    
 }
 
 
 
 function removeWhishlistProduct(wishlistId, productId) {
-    $(document).ready(() => {
-        $.ajax({
-            url: '/wishlist/removeproduct',
-            data: {
-                wishlist: wishlistId,
-                product: productId
-            },
-            method: 'POST',
-            success: (response) => {
-                $("#refresh-section").load(location.href + " #refresh-section");
-            }
-        })
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger mr-3'
+        },
+        buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $(document).ready(() => {
+                $.ajax({
+                    url: '/wishlist/removeproduct',
+                    data: {
+                        wishlist: wishlistId,
+                        product: productId
+                    },
+                    method: 'POST',
+                    success: (response) => {
+                        $("#refresh-section").load(location.href + " #refresh-section");
+                    }
+                })
+            })
+            swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your product has been removed.',
+                'success'
+            )
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+                'Cancelled',
+                'Your imaginary file is safe :)',
+                'error'
+            )
+        }
     })
 }
+
+
 
 
 function addtoWhishList(productId) {
@@ -166,7 +237,7 @@ function editAddress(addrId) {
         data: $("#edit-addr-form").serialize(),
         method: 'post',
         success: (response) => {
-            $("#modalCenter"+addrId).modal("hide")
+            $("#modalCenter" + addrId).modal("hide")
             $('#refresh-section').load(location.href + " #refresh-section")
         }
     })
@@ -247,21 +318,23 @@ function verifyPayment(payment, order) {
 
 function closePopup() {
     popup.classList.remove("open-popup")
-    location.href = '/orders'
+    location.href = '/myaccount/orders'
 }
 
 
-function create_coupon_discount(event){
+function create_coupon_discount(event) {
     event.preventDefault()
     $.ajax({
-        url:'/cart/submit_coupon',
-        data:{coupon:$("#coupon_input").val()},
-        method:"post",
-        success:(response) => {
-            if(response.status.isValid){
+        url: '/cart/submit_coupon',
+        data: { coupon: $("#coupon_input").val() },
+        method: "post",
+        success: (response) => {
+            if (response.status.isValid) {
                 $('.toast').toast('show')
                 $("#discount").text(response.discount.discount)
                 $("#total").text(`Rs.${response.discount.d_total}`)
+                $("#coupon-applied").text(`Coupon Applied! ${response.discount.discount}`)
+                $('#remove').text("Remove")
             }
         }
     })

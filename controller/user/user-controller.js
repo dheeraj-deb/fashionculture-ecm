@@ -2,6 +2,7 @@ const product = require('../../model/product');
 const user = require('../../model/User');
 const nodeMailer = require('nodemailer');
 const session = require('express-session');
+require('dotenv').config()
 let prod;
 let cartProducts;
 let cartTotal;
@@ -12,8 +13,8 @@ let searchProduct = null;
 const transporter = nodeMailer.createTransport({
     service: 'gmail',
     auth: {
-        user: "dheerajknight81@gmail.com",
-        pass: "lresljrchluhpapx"
+        user: process.env.NODEMAILER_EMAIL,
+        pass: process.env.NODEMAILER_PASS
     }
 })
 
@@ -30,21 +31,23 @@ exports.getHome = async (req, res) => {
         searchProduct = result
         res.redirect('/')
     } else {
-        product.getAllProduct().then((result) => {
-
-            console.log(result);
-
+        product.getAllProduct().then(async (result) => {
             if (searchProduct) {
                 result = searchProduct;;
             }
+
             res.render('user/index', {
                 title: 'Wear Again',
                 user: true,
                 product: result,
                 session: req.session,
+                cartProducts,
+                cartTotal,
                 layout: "user-layout",
                 Home: true
             });
+
+
 
         })
     }
@@ -70,8 +73,11 @@ exports.getShop = (req, res) => {
 
 // filter category (men,women,kids)
 exports.filterCategory = (req, res) => {
-    const filter = req.body.filter
-    console.log(filter);
+    let filter
+    filter = req.body.filter
+    if(req.query){
+        filter = req.query.category;
+    }
     product.filterCategory(filter).then((result) => {
         console.log("res", result);
         prod = result
@@ -123,12 +129,13 @@ exports.productDetails = (req, res) => {
 // add to cart
 exports.addToCart = async (req, res) => {
     await product.addtoCart(req.body.productId, req.session.user._id)
+    res.json({ status: true })
 }
 
 
 exports.getCart = async (req, res) => {
     cartProducts = await product.getCartItems(req.session.user._id)
-    const address = await user.getAddress(req.session.user._id);
+    console.log(cartProducts);
     if (cartProducts) {
         cartTotal = await product.getCartTotal(req.session.user._id)
         const coupon = await product.getCoupon();
@@ -140,10 +147,22 @@ exports.getCart = async (req, res) => {
                 total: cartTotal,
                 productTotal,
                 Cart: true,
-                address,
+                coupon
+            })
+        } else {
+            res.render('user/cart', {
+                layout: "user-layout",
+                user: true,
+                Cart: true,
                 coupon
             })
         }
+    } else {
+        res.render('user/cart', {
+            layout: "user-layout",
+            user: true,
+            Cart: true,
+        })
     }
 }
 
@@ -195,16 +214,16 @@ exports.placeOrder = async (req, res) => {
     const discount_price = await product.isDiscountAvailable(req.session.user._id)
     const cartTotal = await product.getCartTotal(req.session.user._id);
     const address = await user.getAddressByAddressId(req.body.address[1], req.session.user._id)
-    if(discount_price){
+    if (discount_price) {
         totalPrice = discount_price
-    }else{
+    } else {
         totalPrice = cartTotal
     }
     user.placeOrder(req.body, products, totalPrice, address, req.session.user._id).then((response) => {
         if (req.body.paymentmethod === 'cod') {
             res.json({ sts: true })
         } else {
-            user.generateRazopay(totalPrice).then((response) => {
+            user.generateRazopay(totalPrice, response).then((response) => {
                 console.log("responseeeeeeeee", response);
                 res.json(response)
             })
@@ -215,6 +234,7 @@ exports.placeOrder = async (req, res) => {
 
 exports.verifyPayment = (req, res) => {
     user.verifyPayment(req.body).then((response) => {
+        user.changePaymentStatus(req.body["order[receipt]"], req.session.user._id)
         res.json(response)
     })
 }
@@ -277,16 +297,12 @@ exports.editProfile = async (req, res) => {
 
 exports.getWhishList = async (req, res) => {
     wishListProducts = await product.getWishlistproducts(req.session.user._id)
-    if (wishListProducts) {
-        cartProducts = await product.getCartItems(req.session.user._id)
-        cartTotal = await product.getCartTotal(req.session.user._id)
-        if (cartProducts && cartTotal) {
-            console.log("cartProdct", cartProducts);
-            console.log("carttotal", cartTotal);
-            res.render('user/wishlist', { layout: "user-layout", user: true, products: wishListProducts, cartProducts, cartTotal })
-        }
+    console.log(wishListProducts);
+    if (wishListProducts.length) {
+        res.render('user/wishlist', { layout: "user-layout", user: true, whishlist:true, products: wishListProducts })
+    }else{
+        res.render('user/wishlist', { layout: "user-layout", user: true, whishlist:true, })
     }
-
 }
 
 exports.add_to_whishlist = async (req, res) => {
@@ -315,7 +331,7 @@ exports.getMyAccount = async (req, res) => {
     const cartCount = await user.getCartCount(req.session.user._id)
     const whishlistCount = await user.getWishlistCount(req.session.user._id)
     const orderDetails = await user.findLimitedOrders(req.session.user._id)
-    console.log("order-details",orderDetails);
+    console.log("order-details", orderDetails);
     res.render('user/my-acc', { layout: "user-layout", user: true, profile: true, myacc: true, userDetails, cartCount, whishlistCount, orderDetails })
 }
 
@@ -400,9 +416,9 @@ exports.getUserAddress = async (req, res) => {
 
 // coupon
 
-exports.getCoupon = async (req, res) => {
-    const coupon = await user.getCoupon()
-}
+// exports.getCoupon = async (req, res) => {
+//     const coupon = await user.getCoupon()
+// }
 
 exports.create_coupon_discount = async (req, res) => {
     console.log(req.body.coupon, req.session.user._id);
@@ -410,3 +426,8 @@ exports.create_coupon_discount = async (req, res) => {
     console.log(disObj);
     res.json(disObj)
 }
+
+
+exports.order = (req, res) => {
+    res.render('user/order', {layout: "user-layout", user: true, order:true})
+} 

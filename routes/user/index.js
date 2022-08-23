@@ -16,6 +16,8 @@ router.get('/products', isBlocked, controller.getProducts);
 // filter
 router.post('/all-products', isBlocked, controller.getallProducts);
 
+router.get('/filter-category', isBlocked, controller.filterCategory)
+
 router.post('/filter-category', isBlocked, controller.filterCategory);
 
 router.post('/products/filterByPrice', isBlocked, controller.filterByPrice)

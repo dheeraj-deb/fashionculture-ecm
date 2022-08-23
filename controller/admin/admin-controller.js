@@ -1,15 +1,30 @@
 const product = require('../../model/product');
 const admin = require('../../model/admin');
 const user = require('../../model/User');
-const path = require('path');
 
-exports.getAdmin = (req, res) => {
-    // if (req.session.isAdminLogIn) {
+exports.getAdmin = async (req, res) => {
+    // const totalUsers = await admin.findTotalUsers()
+    // const totalOrders = await admin.findTotalOrders()
+    // const onlinePOrders = await admin.findOnlinePOrders()
+    // const codPOrders = await admin.findCodPOrders()
+    // const profit = await admin.findTotalProfit()
+    // const codProfit = await admin.findProfitFromCod()
+    // const onlineP = await admin.findProfitFromOnlineP()
+    
+   
+    Promise.all([admin.findTotalOrders, admin.findTotalUsers,
+         admin.findOnlinePOrders, admin.findCodPOrders, admin.findTotalProfit,
+        admin.findProfitFromOnlineP, admin.findProfitFromCod]).then((result) => {
+            console.log(result);
+        })
+    
+    
+    // console.log(codProfit);
+
+    
+    // console.log(totalUsers, totalOrders, profit);
     res.render('admin/index', { title: "Admin Home", layout: 'admin_layout', admin: true, dashboardActive: true })
-    // } else {
-    //     req.flash('error', "Your Session has expired! Please Signin")
-    //     res.redirect('/admin/auth/signin');
-    // }
+    
 }
 
 exports.getaddProduct = (req, res) => {
@@ -155,4 +170,19 @@ exports.getAddCoupon = (req, res) => {
 exports.addCoupon = (req, res) => {
     admin.addCoupon(req.body)
     res.redirect('/admin/coupon')
+}
+
+exports.getCoupon = async(req, res) => {
+    const coupon = await admin.getCoupon()
+    console.log(coupon);
+    res.render('admin/manage-coupon', { layout: 'admin_layout' ,coup:true, coupon})
+}
+
+exports.changeCouponStatus = (req, res) => {
+    admin.changeCouponStatus(req.body.couponId, req.body.status)
+}
+
+exports.deleteCoupon = async (req, res) => {
+    await admin.deleteCoupon(req.body.couponId)
+    res.json({status:true})
 }

@@ -1,27 +1,13 @@
 {{>user/header-v4}}
 
+<div id="refresh-section">
 {{#if products}}
 <!-- breadcrumb -->
-{{!-- toast --}}
-<div class="toast bg-success" role="alert" aria-live="assertive" aria-atomic="true"
-    style="position:absolute; top:50%; right: 34%; z-index: 3000;">
-    <div class="toast-header">
-        <strong class="mr-auto">Notification</strong>
-        <small>0 s ago</small>
-        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="toast-body text-white">
-        Your Coupon is applied successfully!
-    </div>
-</div>
 
-{{!-- !toast --}}
 
 <section class="shopping-cart spad">
     <div class="container">
-        <div class="row" id="refresh-section">
+        <div class="row">
             <div class="col-lg-8">
                 <div class="shopping__cart__table">
                     <table>
@@ -100,6 +86,10 @@
                         aria-controls="offcanvasEnd">Show Coupons</button>
                 </div>
                 <div class="cart__total">
+                    <div class="d-flex justify-content-between">
+                        <h6 id="coupon-applied"></h6>
+                        <a id="remove" class="text-danger"></a>
+                    </div>
                     <h6>Cart total</h6>
                     <ul>
                         <li>Subtotal <span>Rs.{{total}}</span></li>
@@ -126,11 +116,11 @@
             </div>
             <div class="offcanvas-body mx-0 flex-grow-0">
                 {{#each coupon}}
-                <div class="container discount-wrapper" style="height: 300px;">
-                    <div class="row" style="height: 100px; border: 1px solid #b9b0b0">
-                        <div class="col-3" style="border-right: 1px solid #b9b0b0;">
+                <div class=" discount-wrapper mb-3" style="height: 130px;">
+                    <div class="row" style="height: 130px; border: 1px solid #b9b0b0">
+                        <div class="col-3">
                             <img src="https://makewebbetter.com/wp-content/uploads/2020/07/eCommerce-digital-coupons.jpg"
-                                style="width: 100%; height: 100px; object-fit: cover;" alt="">
+                                style="width: 100%; height: 130px; object-fit: cover;" alt="">
                         </div>
                         <div class="col-9 " style="position: relative;">
                             <h5 class=" mt-2 mb-1">WearAgain</h5>
@@ -139,9 +129,9 @@
                             {{!-- <p id="copyResult" style="position: absolute; top: 50%; left: 50%;"></p> --}}
                             <div class="d-flex justify-content-between">
                                 <div class="d-flex">
-                                    <p>COUPON :</p>
-                                    <P id="textToCopy">{{this.code}}</P>
-                                    <p id="copyResult"></p>
+                                    <p class="mb-0" >COUPON :</p>
+                                    <P class="mb-0" id="textToCopy">{{this.code}}</P>
+                                    <p class="mb-0" id="copyResult"></p>
                                 </div>
                                 <svg id="copyButton" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
@@ -162,11 +152,16 @@
 </div>
 {{else}}
 
-
-
-<h1>No Cart Products Found!</h1>
+<div class="container d-flex flex-column align-items-center justify-content-center h-75">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_qh5z2fdq.json" background="transparent" speed="1"
+        style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+    <a class="text-primary" href="/">Shop Now !</a>
+</div>
 
 {{/if}}
+
+</div>
 
 
 <script>

@@ -6,15 +6,19 @@
         <div class="col-lg-9 my-lg-0 my-1">
             <div id="main-content" class="bg-white border">
                 {{#each orderDetails}}
-                <div class="order my-3 bg-light">
+                <div class="order my-3 " style="box-shadow: 0px 0px 5px -2px rgb(0 0 0 / 75%);">
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="d-flex flex-column justify-content-between order-summary">
                                 <div class="d-flex align-items-center">
-                                    <div class="text-uppercase">Order {{inc @index}}</div>
-                                    <div class="blue-label ms-auto text-uppercase">{{this.orderObj.paymentmethod}}</div>
+                                    <div class="text-uppercase" style="color: black;
+                                                        font-weight: 400;">Order {{inc @index}}</div>
+                                    <div class="blue-label ms-auto text-uppercase"
+                                        style="background-color: #e7e7f3; color: black;">{{this.orderObj.paymentmethod}}
+                                    </div>
                                 </div>
-                                <div class="fs-8">{{this.orderObj.date}}</div>
+                                <div class="fs-8" style="color: black;
+                                                            font-weight: 400;">{{this.orderObj.date}}</div>
                                 <div class="rating d-flex align-items-center pt-1">
                                     <img src="https://www.freepnglogos.com/uploads/like-png/like-png-hand-thumb-sign-vector-graphic-pixabay-39.png"
                                         alt=""><span class="px-2">Rating:</span>
@@ -28,9 +32,9 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
-                                <div class="status">Status : {{this.orderObj.status}}</div>
-                                <div class="btn btn-primary text-uppercase" 
-                                    data-bs-toggle="offcanvas"
+                                <div class="status" style="color: black; font-weight: 400;">Status : {{#if this.orderprossesing}}
+                                    Order is under prossessing {{else}} {{this.orderObj.status}} {{/if}}</div>
+                                <div class="btn btn-outline-dark text-uppercase" data-bs-toggle="offcanvas"
                                     data-bs-target="#offcanvasEnd{{this.orderObj.orderId}}"
                                     aria-controls="offcanvasEnd">order info</div>
                             </div>
@@ -116,7 +120,10 @@
                                             </a>
 
                                             <span class="header-cart-item-info">
-                                                price : {{this.products.price}}
+                                                price : {{this.products.discount_price}}
+                                            </span>
+                                            <span class="header-cart-item-info">
+                                                qty : {{this.qty}}
                                             </span>
                                         </div>
                                     </li>

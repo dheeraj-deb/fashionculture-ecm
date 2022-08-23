@@ -2,17 +2,14 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const db = require('../util/database');
 const collection = require('../util/collection').collection;
-const user = require('../model/User');
 const objectId = require('mongodb').ObjectId
 const Razorpay = require('razorpay');
-const { resolve } = require('path');
-const { log } = require('console');
-const client = require('twilio')('AC19fa060e5047f5af9b81450edc56838b', 'e467d276e91f7c076dc84ebdfd89ac37')
-const sericeSid = 'MG2498a2ee28acf16fcb06163119935fc8';
+require('dotenv').config()
+
 
 const instance = new Razorpay({
-    key_id: 'rzp_test_yCPnhowiHhtpuX',
-    key_secret: 'rU5Oo1OqZAgybktcAuxaOrwH',
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 
@@ -398,15 +395,15 @@ exports.changePassword = (password, cr_pass, userId) => {
         const user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: userId })
         const response = await bcrypt.compare(cr_pass, user.password)
         const pass = await bcrypt.hash(password, 10)
-        if (response){
-            const res = await db.get().collection(collection.USER_COLLECTION).updateOne({_id:userId}, {
-                $set:{
-                    password:pass
+        if (response) {
+            const res = await db.get().collection(collection.USER_COLLECTION).updateOne({ _id: userId }, {
+                $set: {
+                    password: pass
                 }
             })
             console.log(res);
             resolve(res)
-        }else{
+        } else {
             resolve()
         }
     })
@@ -427,14 +424,20 @@ exports.placeOrder = (order, products, total, address, userId) => {
             date: new Date().toDateString()
         }
 
-        // const isUser = await db.get().collection(collection.ORDER_COLLECTION).findOne({ user: objectId(userId) })
-        // if (isUser) {
-        //     const addNewOrder = await db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj)
-        //     resolve(addNewOrder)
-        // } else {
-        db.get().collection(collection.ORDER_COLLECTION).insertOne({ user: objectId(userId), orderObj }).then(async (response) => {
-            // db.get().collection(collection.CART_COLLECTION).remove({ user: objectId(userId) })
-            resolve(response)
+        db.get().collection(collection.ORDER_COLLECTION).insertOne({
+            user: objectId(userId), orderObj,
+            orderprossesing:true
+        }).then(async (response) => {
+            if (status === "placed") {
+                db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(userId) })
+            }
+            if (response) {
+                resolve(response.insertedId.toString())
+            } else {
+                resolve()
+            }
+
+
         })
         // }
     })
@@ -465,7 +468,7 @@ exports.findLimitedOrders = (userId) => {
     })
 }
 
-exports.generateRazopay = (total) => {
+exports.generateRazopay = (total, response) => {
     console.log("total", total);
     return new Promise(async (resolve, reject) => {
         const amount = total;
@@ -473,7 +476,7 @@ exports.generateRazopay = (total) => {
         const options = {
             amount: amount * 100,
             currency: "INR",
-            receipt: "order_receipt_11"
+            receipt: response
         };
 
         instance.orders.create(options, function (err, order) {
@@ -487,14 +490,11 @@ exports.generateRazopay = (total) => {
 }
 
 exports.verifyPayment = (data) => {
-    // console.log(data);
-    return new Promise((resolve, reject) => {
+    console.log(data);
+    return new Promise(async (resolve, reject) => {
         const body = data['payment[razorpay_order_id]'] + "|" + data['payment[razorpay_payment_id]'];
         const expectedSignature = crypto.createHmac('sha256', 'rU5Oo1OqZAgybktcAuxaOrwH').update(body.toString())
             .digest('hex')
-        // console.log("sig received ", data['payment[razorpay_signature]']);
-        // console.log("sig generated ", expectedSignature);
-
         let response = { "signatureIsValid": false }
 
         if (expectedSignature === data['payment[razorpay_signature]']) {
@@ -502,6 +502,24 @@ exports.verifyPayment = (data) => {
             resolve(response)
         } else {
             resolve(response)
+        }
+    })
+}
+
+exports.changePaymentStatus = (orederId, userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.get().collection(collection.ORDER_COLLECTION).updateOne({
+                _id: objectId(orderId)
+            },
+                {
+                    $set: {
+                        "orderObj.status": "placed"
+                    }
+                }
+            )
+        } catch (error) {
+
         }
     })
 }
@@ -517,10 +535,12 @@ exports.getCoupon = (amount, userId) => {
 
 
 exports.getCartCount = (userId) => {
+    let cartCount = 0
     return new Promise(async (resolve, reject) => {
         const cart = await db.get().collection(collection.CART_COLLECTION).find({ user: userId }).toArray()
-        const cartCount = cart[0].products.length
-        console.log(cartCount);
+        if(cart.length){
+             cartCount = cart[0].products.length
+        } 
         resolve(cartCount)
     })
 }

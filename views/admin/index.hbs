@@ -97,54 +97,10 @@
             </div>
             <!-- Total Revenue -->
             <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
-              <div class="card">
-                <div class="row row-bordered g-0">
-                  <div class="col-md-8">
-                    <h5 class="card-header m-0 me-2 pb-3">Total Revenue</h5>
-                    <div id="totalRevenueChart" class="px-2"></div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="card-body">
-                      <div class="text-center">
-                        <div class="dropdown">
-                          <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button"
-                            id="growthReportId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            2022
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">
-                            <a class="dropdown-item" href="javascript:void(0);">2021</a>
-                            <a class="dropdown-item" href="javascript:void(0);">2020</a>
-                            <a class="dropdown-item" href="javascript:void(0);">2019</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div id="growthChart"></div>
-                    <div class="text-center fw-semibold pt-3 mb-2">62% Company Growth</div>
 
-                    <div class="d-flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
-                      <div class="d-flex">
-                        <div class="me-2">
-                          <span class="badge bg-label-primary p-2"><i class="bx bx-dollar text-primary"></i></span>
-                        </div>
-                        <div class="d-flex flex-column">
-                          <small>2022</small>
-                          <h6 class="mb-0">$32.5k</h6>
-                        </div>
-                      </div>
-                      <div class="d-flex">
-                        <div class="me-2">
-                          <span class="badge bg-label-info p-2"><i class="bx bx-wallet text-info"></i></span>
-                        </div>
-                        <div class="d-flex flex-column">
-                          <small>2021</small>
-                          <h6 class="mb-0">$41.2k</h6>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+              <canvas id="myChart"></canvas>
+
             </div>
             <!--/ Total Revenue -->
             <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
@@ -497,3 +453,41 @@
   <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 <!-- / Layout wrapper -->
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const myChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive:true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>

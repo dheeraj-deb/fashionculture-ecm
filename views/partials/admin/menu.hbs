@@ -38,12 +38,12 @@
                 <div data-i18n="Basic">Manage user</div>
             </a>
         </li>
-        <li class="menu-item {{#if manageBanner}} active {{/if}}">
+        {{!-- <li class="menu-item {{#if manageBanner}} active {{/if}}">
             <a href="/admin/manage-banner" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
                 <div data-i18n="Basic">Manage Banner</div>
             </a>
-        </li>
+        </li> --}}
 
         <li class="menu-item {{#if manageBanner}} active {{/if}}">
             <a href="/admin/manage-orders" class="menu-link">
@@ -52,7 +52,7 @@
             </a>
         </li>
         <!-- coupon -->
-        <li class="menu-item">
+        <li class="menu-item" {{#if coup}} active {{/if}}>
             <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-box"></i>
                 <div data-i18n="User interface">Coupon</div>
@@ -64,7 +64,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="ui-alerts.html" class="menu-link">
+                    <a href="/admin/manage-coupon" class="menu-link">
                         <div data-i18n="Alerts">Manage Coupon</div>
                     </a>
                 </li>

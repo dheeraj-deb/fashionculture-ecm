@@ -40,7 +40,13 @@ router.post('/change-order-status', isAuth, controller.changeOrderStatus)
 
 router.get('/coupon', isAuth, controller.getAddCoupon)
 
+router.get('/manage-coupon', isAuth, controller.getCoupon)
+
 router.post('/add-coupon', isAuth, controller.addCoupon)
+
+router.post('/change-coupon-status', isAuth, controller.changeCouponStatus)
+
+router.post('/delete-coupon', isAuth, controller.deleteCoupon)
 
 
 module.exports = router;
