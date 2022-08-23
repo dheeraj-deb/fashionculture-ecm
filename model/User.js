@@ -426,7 +426,12 @@ exports.placeOrder = (order, products, total, address, userId) => {
 
         db.get().collection(collection.ORDER_COLLECTION).insertOne({
             user: objectId(userId), orderObj,
-            orderprossesing:true
+            orderprossesing: true,
+            Placed: false,
+            Pending: true,
+            Deliverd: false,
+            Canceled: false,
+            Placed: false
         }).then(async (response) => {
             if (status === "placed") {
                 db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(userId) })
@@ -538,9 +543,9 @@ exports.getCartCount = (userId) => {
     let cartCount = 0
     return new Promise(async (resolve, reject) => {
         const cart = await db.get().collection(collection.CART_COLLECTION).find({ user: userId }).toArray()
-        if(cart.length){
-             cartCount = cart[0].products.length
-        } 
+        if (cart.length) {
+            cartCount = cart[0].products.length
+        }
         resolve(cartCount)
     })
 }
