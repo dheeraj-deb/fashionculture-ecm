@@ -13,7 +13,7 @@ let searchProduct = null;
 const transporter = nodeMailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.NODEMAILER_EMAIL,
+        user: "dheerajknight81@gmail.com",
         pass: process.env.NODEMAILER_PASS
     }
 })
