@@ -57,38 +57,11 @@
                                                                    font-size: 13px;
                                                                     color: #fff;">
                                                     <option selected>{{this.orderObj.status}}</option>
-                                                    {{#when this.orderObj.status 'eq' 'Placed'}}
-                                                        <option value="Shipped">Shipped</option>
-                                                        <option value="Pending">Pending</option>
-                                                        <option value="Deliverd">Deliverd</option>
-                                                        <option value="Canceled">Canceled</option>
-                                                    {{/when}}
-                                                    {{#when this.orderObj.status 'eq' 'Shipped'}}
-                                                        <option value="Placed">Placed</option>
-                                                        <option value="Pending">Pending</option>
-                                                        <option value="Deliverd">Deliverd</option>
-                                                        <option value="Canceled">Canceled</option>
-                                                        <option value="Placed">Placed</option>
-                                                    {{/when}}
-                                                    {{#when this.orderObj.status 'eq' 'Pending'}}
-                                                        <option value="Shipped">Shipped</option>
-                                                        <option value="Deliverd">Deliverd</option>
-                                                        <option value="Canceled">Canceled</option>
-                                                        <option value="Placed">Placed</option>
-                                                    {{/when}}
-                                                    {{#when this.orderObj.status 'eq' 'Deliverd'}}
-                                                        <option value="Shipped">Shipped</option>
-                                                        <option value="Pending">Pending</option>
-                                                        <option value="Canceled">Canceled</option>
-                                                        <option value="Placed">Placed</option>
-                                                    {{/when}}
-                                                    {{#when this.orderObj.status 'eq' 'Canceled'}}
-                                                        <option value="Shipped">Shipped</option>
-                                                        <option value="Pending">Pending</option>
-                                                        <option value="Deliverd">Deliverd</option>
-                                                        <option value="Placed">Placed</option>
-                                                    {{/when}}
-                                                    
+                                                    <option value="Shipped">Shipped</option>
+                                                    <option value="Pending">Pending</option>
+                                                    <option value="Deliverd">Deliverd</option>
+                                                    <option value="Canceled">Canceled</option>
+                                                    <option value="Placed">Placed</option>
                                                 </select>
                                             </span>
                                         </td>
@@ -138,7 +111,7 @@
                                                             {{/each}}
                                                         </div>
                                                         <div>
-                                                            <h4>Total : {{this.orderObj.totalAmount}}</h4> 
+                                                            <h4>Total : {{this.orderObj.totalAmount}}</h4>
                                                         </div>
                                                         <div>
                                                             <h4 class="mb-0 text-dark">Address</h4>
