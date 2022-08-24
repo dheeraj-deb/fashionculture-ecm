@@ -305,13 +305,13 @@ exports.findCodPOrders = () => {
 exports.findOrdrsByStatus = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const deliverd = await db.get().collection(collection.ORDER_COLLECTION).find({ deliverd: true }).toArray().length
-            const shipped = await db.get().collection(collection.ORDER_COLLECTION).find({ shipped: true }).toArray().length
-            const canceled = await db.get().collection(collection.ORDER_COLLECTION).find({ canceled: true }).toArray().length
-            const placed = await db.get().collection(collection.ORDER_COLLECTION).find({ placed: true }).toArray().length
-            const pending = await db.get().collection(collection.ORDER_COLLECTION).find({ pending: true }).toArray().length
-            const data = [deliverd, pending, placed, shipped, canceled]
-            resolve(data)
+            const deliverd = await db.get().collection(collection.ORDER_COLLECTION).find({ deliverd: true }).toArray()
+            const shipped = await db.get().collection(collection.ORDER_COLLECTION).find({ shipped: true }).toArray()
+            const canceled = await db.get().collection(collection.ORDER_COLLECTION).find({ canceled: true }).toArray()
+            const placed = await db.get().collection(collection.ORDER_COLLECTION).find({ placed: true }).toArray()
+            const pending = await db.get().collection(collection.ORDER_COLLECTION).find({ pending: true }).toArray()
+            // console.log(deliverd, shipped, canceled, placed, pending);
+            resolve({deliverd:deliverd.length, shipped:shipped.length, canceled:canceled.length, placed:placed.length, pending:pending.length})
         } catch (error) {
             return error
         }

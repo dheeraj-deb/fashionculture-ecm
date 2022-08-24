@@ -12,6 +12,7 @@ exports.getAdmin = async (req, res) => {
     const onlineP = await admin.findProfitFromOnlineP()
     const ordersData = await admin.findOrdrsByStatus()
 
+    console.log(ordersData);
 
     res.render('admin/index', { title: "Admin Home", layout: 'admin_layout', codProfit, onlineP, onlinePOrders, codPOrders, admin: true, profit, totalUsers, totalOrders, ordersData, dashboardActive: true })
     // console.log(totalUsers, totalOrders, profit);    

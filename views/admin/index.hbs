@@ -255,7 +255,7 @@
       labels: ['deliverd', 'pending', 'placed', 'shipped', 'canceled'],
       datasets: [{
         label: '# of Votes',
-        data: [],
+        data: [{{ordersData.deliverd}}, {{ordersData.pending}}, {{ordersData.placed}}, {{ordersData.shipped}}, {{ordersData.canceled}}],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
