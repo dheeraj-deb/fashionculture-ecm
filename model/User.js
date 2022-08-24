@@ -19,23 +19,31 @@ let userFound = false;
 
 function getUser(userData) {
     return new Promise((resolve, reject) => {
-        db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email, isBlocked: false }).then((response) => {
-            if (response) {
-                return resolve(response)
-            }
-            resolve()
-        })
+        try {
+            db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email, isBlocked: false }).then((response) => {
+                if (response) {
+                    return resolve(response)
+                }
+                resolve()
+            })
+        } catch (error) {
+            reject(error)
+        }
     })
 }
 
 function getUserById(id) {
     return new Promise((resolve, reject) => {
-        db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(id) }).then((response) => {
-            if (response) {
-                return resolve(response)
-            }
-            resolve()
-        })
+        try {
+            db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(id) }).then((response) => {
+                if (response) {
+                    return resolve(response)
+                }
+                resolve()
+            })
+        } catch (error) {
+            reject(error)
+        }
     })
 }
 
