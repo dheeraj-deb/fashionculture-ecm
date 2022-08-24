@@ -438,3 +438,10 @@ exports.removeCoupon = async (req, res) => {
 exports.order = (req, res) => {
     res.render('user/order', { layout: "user-layout", user: true, order: true })
 } 
+
+
+// invoice
+exports.generateInvoice = async (req, res) => {
+    const orderDetails = await user.generateInvoice(req.params.orderId)
+    res.render('user/invoice', {layout: "user-layout", user:true, invoice:true, orderDetails})
+}

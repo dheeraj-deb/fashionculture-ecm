@@ -93,4 +93,8 @@ router.post('/cart/submit_coupon', isAuth, controller.create_coupon_discount)
 
 router.post('/remove-coupon', isAuth, controller.removeCoupon)
 
+// invoice
+
+router.get('/myaccount/orders/invoice/:orderId', isAuth, controller.generateInvoice)
+
 module.exports = router;

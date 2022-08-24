@@ -32,11 +32,15 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
-                                <div class="status" style="color: black; font-weight: 400;">Status : {{#if this.orderprossesing}}
+                                <div class="status" style="color: black; font-weight: 400;">Status : {{#if
+                                    this.orderprossesing}}
                                     Order is under prossessing {{else}} {{this.orderObj.status}} {{/if}}</div>
-                                <div class="btn btn-outline-dark text-uppercase" data-bs-toggle="offcanvas"
-                                    data-bs-target="#offcanvasEnd{{this.orderObj.orderId}}"
-                                    aria-controls="offcanvasEnd">order info</div>
+                                <div>
+                                    <a class="btn" href="/myaccount/orders/invoice/{{this.orderObj.orderId}}">view invoice</a>
+                                    <div class="btn btn-outline-dark text-uppercase" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasEnd{{this.orderObj.orderId}}"
+                                        aria-controls="offcanvasEnd">order info</div>
+                                </div>
                             </div>
                             <div class="progressbar-track">
                                 {{#if this.placed}}

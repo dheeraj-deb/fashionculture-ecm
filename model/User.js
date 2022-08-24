@@ -571,4 +571,17 @@ exports.getOrderCount = (userId) => {
 }
 
 
+// invoice
+
+exports.generateInvoice = (orderId) => {
+    return new Promise(async(resolve, reject) => {
+        const order = await db.get().collection(collection.ORDER_COLLECTION).findOne({"orderObj.orderId":objectId(orderId)})
+        if(order){
+            return resolve(order)
+        }
+        resolve()
+    })
+}
+
+
 module.exports.getUser = getUser;
