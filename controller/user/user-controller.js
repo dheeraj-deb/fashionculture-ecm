@@ -75,7 +75,7 @@ exports.getShop = (req, res) => {
 exports.filterCategory = (req, res) => {
     let filter
     filter = req.body.filter
-    if(req.query){
+    if (req.query.category) {
         filter = req.query.category;
     }
     product.filterCategory(filter).then((result) => {
@@ -138,7 +138,7 @@ exports.getCart = async (req, res) => {
     console.log(cartProducts);
     if (cartProducts) {
         cartTotal = await product.getCartTotal(req.session.user._id)
-        const coupon = await product.getCoupon();
+        const coupon = await product.getCoupon(req.session.user._id);
         if (cartTotal) {
             res.render('user/cart', {
                 layout: "user-layout",
@@ -299,9 +299,9 @@ exports.getWhishList = async (req, res) => {
     wishListProducts = await product.getWishlistproducts(req.session.user._id)
     console.log(wishListProducts);
     if (wishListProducts.length) {
-        res.render('user/wishlist', { layout: "user-layout", user: true, whishlist:true, products: wishListProducts })
-    }else{
-        res.render('user/wishlist', { layout: "user-layout", user: true, whishlist:true, })
+        res.render('user/wishlist', { layout: "user-layout", user: true, whishlist: true, products: wishListProducts })
+    } else {
+        res.render('user/wishlist', { layout: "user-layout", user: true, whishlist: true, })
     }
 }
 
@@ -381,7 +381,7 @@ exports.forgotPassword = async (req, res) => {
                 subject: 'Reset Password',
                 html: `
             <p>Hai ${user.f_name + " " + user.l_name} You requested a password reset</p>
-            <p>Please click this <a href ="http://localhost:3000/reset_pass/${token}">Link</a> to set a new pasword.</p>
+            <p>Please click this <a href ="https://fashioncluture.ml/reset_pass/${token}">Link</a> to set a new pasword.</p>
             `
             })
         } else {
@@ -421,13 +421,20 @@ exports.getUserAddress = async (req, res) => {
 // }
 
 exports.create_coupon_discount = async (req, res) => {
-    console.log(req.body.coupon, req.session.user._id);
     const disObj = await product.create_coupon_discount(req.body.coupon, req.session.user._id)
     console.log(disObj);
     res.json(disObj)
 }
 
+exports.removeCoupon = async (req, res) => {
+    const userId = req.session.user._id
+    await product.removeCoupon(userId)
+    res.json({
+        status:true
+    })
+}
+
 
 exports.order = (req, res) => {
-    res.render('user/order', {layout: "user-layout", user: true, order:true})
+    res.render('user/order', { layout: "user-layout", user: true, order: true })
 } 

@@ -366,7 +366,7 @@ exports.getCartItems = (userId) => {
                 ]
             ).toArray()
 
-            if(cartItems.length)
+            if (cartItems.length)
                 return resolve(cartItems)
             resolve()
         }
@@ -402,7 +402,7 @@ exports.deleteCartItem = (data) => {
             }
         ).then((response) => {
             resolve(response)
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err);
         })
     })
@@ -411,7 +411,7 @@ exports.deleteCartItem = (data) => {
 
 exports.getCartTotal = (userId) => {
     return new Promise(async (resolve, reject) => {
-        const   cartTotal = await db.get().collection(collection.CART_COLLECTION).aggregate(
+        const cartTotal = await db.get().collection(collection.CART_COLLECTION).aggregate(
             [
                 {
                     $match: {
@@ -450,11 +450,11 @@ exports.getCartTotal = (userId) => {
         ).toArray()
         if (cartTotal.length) {
             return resolve(cartTotal[0].total)
-        }else{
+        } else {
             resolve()
         }
-        
-    }).catch((err)=>{
+
+    }).catch((err) => {
         console.log(err);
     })
 }
@@ -591,10 +591,33 @@ exports.removeFromWislist = (data) => {
 }
 
 
-exports.getCoupon = () => {
+exports.getCoupon = (userId) => {
     return new Promise(async (resolve, reject) => {
-        const coupon = await db.get().collection(collection.COUPON_COLLECTION).find({status:"active"}).toArray()
+        const res = await db.get().collection(collection.COUPON_COLLECTION).find({ "users": userId }).toArray()
+        if (res.length) {
+            return resolve()
+        }
+        const coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ status: "active" })
+
         resolve(coupon)
+    })
+}
+
+exports.removeCoupon = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        const response = await db.get().collection(collection.CART_COLLECTION).updateOne({ user: userId },
+            {
+                $set: {
+                    total: null
+                }
+            }
+        )
+
+        if (response) {
+            return resolve(response)
+        }
+
+        resolve()
     })
 }
 
@@ -698,6 +721,14 @@ exports.create_coupon_discount = async (couponCode, userId) => {
                 )
             }
 
+
+            await db.get().collection(collection.COUPON_COLLECTION).updateOne({ code: couponCode },
+                {
+                    $push: {
+                        "users": userId
+                    }
+                })
+
             return ({ discount: discount_amd[0], status })
         }
     } catch (error) {
@@ -706,9 +737,9 @@ exports.create_coupon_discount = async (couponCode, userId) => {
 }
 
 exports.isDiscountAvailable = (userId) => {
-    return new Promise(async(resolve, reject) => {
-        const cart = await db.get().collection(collection.CART_COLLECTION).findOne({user:userId});
-        if(cart.total){
+    return new Promise(async (resolve, reject) => {
+        const cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: userId });
+        if (cart.total) {
             return resolve(cart.total)
         }
         resolve()

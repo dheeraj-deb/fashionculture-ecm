@@ -91,4 +91,6 @@ router.post('/myprofile/forgot-password', isAuth, controller.forgotPassword)
 
 router.post('/cart/submit_coupon', isAuth, controller.create_coupon_discount)
 
+router.post('/remove-coupon', isAuth, controller.removeCoupon)
+
 module.exports = router;

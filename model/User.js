@@ -530,11 +530,8 @@ exports.changePaymentStatus = (orederId, userId) => {
 }
 
 
-exports.getCoupon = (amount, userId) => {
-    return new Promise((resolve, reject) => {
-        db.get().collection(collection.COUPON_COLLECTION).find()
-    })
-}
+
+
 
 
 

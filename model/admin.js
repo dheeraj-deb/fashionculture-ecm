@@ -146,7 +146,7 @@ exports.getCoupon = () => {
 
 exports.changeCouponStatus = (couponId, status) => {
     return new Promise(async (resolve, reject) => {
-        await db.get().collection(collection.COUPON_COLLECTION).updateOne({_id: objectId(couponId) }, {
+        await db.get().collection(collection.COUPON_COLLECTION).updateOne({ _id: objectId(couponId) }, {
             $set: {
                 status: status
             }
@@ -156,8 +156,8 @@ exports.changeCouponStatus = (couponId, status) => {
 }
 
 exports.deleteCoupon = (couponId) => {
-    return new Promise(async(resolve, reject) => {
-        await db.get().collection(collection.COUPON_COLLECTION).deleteOne({_id:objectId(couponId)})
+    return new Promise(async (resolve, reject) => {
+        await db.get().collection(collection.COUPON_COLLECTION).deleteOne({ _id: objectId(couponId) })
         resolve()
     })
 
@@ -299,4 +299,22 @@ exports.findCodPOrders = () => {
 
         resolve(0)
     })
+}
+
+
+exports.findOrdrsByStatus = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const deliverd = await db.get().collection(collection.ORDER_COLLECTION).find({ deliverd: true }).toArray().length
+            const shipped = await db.get().collection(collection.ORDER_COLLECTION).find({ shipped: true }).toArray().length
+            const canceled = await db.get().collection(collection.ORDER_COLLECTION).find({ canceled: true }).toArray().length
+            const placed = await db.get().collection(collection.ORDER_COLLECTION).find({ placed: true }).toArray().length
+            const pending = await db.get().collection(collection.ORDER_COLLECTION).find({ pending: true }).toArray().length
+            const data = [deliverd, pending, placed, shipped, canceled]
+            resolve(data)
+        } catch (error) {
+            return error
+        }
+    })
+
 }

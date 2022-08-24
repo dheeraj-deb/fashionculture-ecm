@@ -3,28 +3,18 @@ const admin = require('../../model/admin');
 const user = require('../../model/User');
 
 exports.getAdmin = async (req, res) => {
-    // const totalUsers = await admin.findTotalUsers()
-    // const totalOrders = await admin.findTotalOrders()
-    // const onlinePOrders = await admin.findOnlinePOrders()
-    // const codPOrders = await admin.findCodPOrders()
-    // const profit = await admin.findTotalProfit()
-    // const codProfit = await admin.findProfitFromCod()
-    // const onlineP = await admin.findProfitFromOnlineP()
-    
-   
-    Promise.all([admin.findTotalOrders, admin.findTotalUsers,
-         admin.findOnlinePOrders, admin.findCodPOrders, admin.findTotalProfit,
-        admin.findProfitFromOnlineP, admin.findProfitFromCod]).then((result) => {
-            console.log(result);
-        })
-    
-    
-    // console.log(codProfit);
+    const totalUsers = await admin.findTotalUsers()
+    const totalOrders = await admin.findTotalOrders()
+    const onlinePOrders = await admin.findOnlinePOrders()
+    const codPOrders = await admin.findCodPOrders()
+    const profit = await admin.findTotalProfit()
+    const codProfit = await admin.findProfitFromCod()
+    const onlineP = await admin.findProfitFromOnlineP()
+    const ordersData = await admin.findOrdrsByStatus()
 
-    
-    // console.log(totalUsers, totalOrders, profit);
-    res.render('admin/index', { title: "Admin Home", layout: 'admin_layout', admin: true, dashboardActive: true })
-    
+
+    res.render('admin/index', { title: "Admin Home", layout: 'admin_layout', codProfit, onlineP, onlinePOrders, codPOrders, admin: true, profit, totalUsers, totalOrders, ordersData, dashboardActive: true })
+    // console.log(totalUsers, totalOrders, profit);    
 }
 
 exports.getaddProduct = (req, res) => {
@@ -35,7 +25,7 @@ exports.getaddProduct = (req, res) => {
                 menuActive: true,
                 addProduct: true,
                 errorMessage: req.flash('error'),
-                category:category
+                category: category
             })
         }
         // handle error
@@ -85,7 +75,7 @@ exports.getEditProduct = (req, res) => {
                         editProd: true,
                         productsActive: true,
                         product: prod,
-                        category:category
+                        category: category
                     })
                 }
             })
@@ -141,7 +131,7 @@ exports.deleteUser = (req, res) => {
 
 
 exports.getBanner = (req, res) => {
-    res.render('admin/manage-banner',  { layout: 'admin_layout', manageBanner: true })
+    res.render('admin/manage-banner', { layout: 'admin_layout', manageBanner: true })
 }
 
 // ordr management
@@ -149,8 +139,9 @@ exports.getBanner = (req, res) => {
 exports.getOrders = async (req, res) => {
     const orders = await admin.findOrders()
     console.log(orders[0].orderObj);
-    res.render('admin/orders',  { layout: 'admin_layout', orders})
+    res.render('admin/orders', { layout: 'admin_layout', orders })
 }
+
 
 
 exports.findUserById = async (req, res) => {
@@ -165,17 +156,17 @@ exports.changeOrderStatus = async (req, res) => {
 // coupon
 
 exports.getAddCoupon = (req, res) => {
-    res.render('admin/add-coupon', { layout: 'admin_layout'})
+    res.render('admin/add-coupon', { layout: 'admin_layout' })
 }
 exports.addCoupon = (req, res) => {
     admin.addCoupon(req.body)
     res.redirect('/admin/coupon')
 }
 
-exports.getCoupon = async(req, res) => {
+exports.getCoupon = async (req, res) => {
     const coupon = await admin.getCoupon()
     console.log(coupon);
-    res.render('admin/manage-coupon', { layout: 'admin_layout' ,coup:true, coupon})
+    res.render('admin/manage-coupon', { layout: 'admin_layout', coup: true, coupon })
 }
 
 exports.changeCouponStatus = (req, res) => {
@@ -184,5 +175,5 @@ exports.changeCouponStatus = (req, res) => {
 
 exports.deleteCoupon = async (req, res) => {
     await admin.deleteCoupon(req.body.couponId)
-    res.json({status:true})
+    res.json({ status: true })
 }

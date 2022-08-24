@@ -341,6 +341,18 @@ function create_coupon_discount(event) {
 }
 
 
+function removeCoupon(event) {
+    event.preventDefault()
+    console.log("here")
+    $.ajax({
+        url: "/remove-coupon",
+        method:"post",
+        success: (response) => {
+            window.location.reload()
+        }
+    })
+}
+
 $(document).ready(function () {
     $('#table_id').DataTable()
     new $.fn.dataTable.Responsive(table, {
