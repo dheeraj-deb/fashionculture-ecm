@@ -10,7 +10,7 @@ const transporter = nodeMailer.createTransport({
     service: 'gmail',
     auth: {
         user: "dheerajknight81@gmail.com",
-        pass: "lresljrchluhpapx"
+        pass: process.env.NODEMAILER_PASS
     }
 })
 
@@ -66,6 +66,13 @@ exports.postSignUp = (req, res) => {
             res.redirect('/user_registration')
         } else {
             res.redirect('/user_signin')
+
+            transporter.sendMail({
+                to: email,
+                subject: 'FashionCulture',
+                html: `
+            <p>Hai ${f_name + " " + l_name} You have successfully registered in Fashioncluture.ml <br> Please login to browse your products</p>`
+            })
         }
     })
 }

@@ -14,6 +14,21 @@ function changeQty(cartId, productId, count, event) {
     })
 }
 
+function changeSize(cartId, productId, size, event) {
+    event.preventDefault()
+    console.log("hello");
+    $.ajax({
+        url: '/cart/change-size',
+        data: {
+            cart: cartId,
+            product: productId,
+            size:size
+        },
+        method: 'POST',
+        
+    })
+}
+
 function removecCartProduct(cartId, productId) {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {

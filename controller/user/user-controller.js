@@ -37,7 +37,7 @@ exports.getHome = async (req, res) => {
             }
 
             res.render('user/index', {
-                title: 'Wear Again',
+                title: 'Fashion Culture',
                 user: true,
                 product: result,
                 session: req.session,
@@ -110,7 +110,7 @@ exports.getProducts = async (req, res) => {
         if (searchProduct) {
             prod = searchProduct;
         }
-        res.render('user/shop', { product: prod, layout: "user-layout", user: true, Shop: true })
+        res.render('user/shop', { product: prod, layout: "user-layout", title:'shop', user: true, Shop: true })
         searchProduct = null;
     }
 }
@@ -120,7 +120,7 @@ exports.productDetails = (req, res) => {
     const productId = req.params.id;
     product.findProductById(productId).then((prod) => {
         if (prod) {
-            return res.render('user/product-details', { product: prod, layout: "user-layout", user: true })
+            return res.render('user/product-details', { product: prod, title:'Product', layout: "user-layout", user: true })
         }
 
     })
@@ -128,8 +128,17 @@ exports.productDetails = (req, res) => {
 
 // add to cart
 exports.addToCart = async (req, res) => {
-    await product.addtoCart(req.body.productId, req.session.user._id)
-    res.json({ status: true })
+    const userId = req.session.user._id
+    if (req.query.proId) {
+        const { size, proId } = req.query;
+        const qty = parseInt(req.query['num-product']);
+        await product.addtoCart(proId, size, qty, userId)
+        res.json({ status: true })
+    } else {
+        console.log("here");
+        await product.addtoCart(req.body.productId, null, null, req.session.user._id)
+        res.json({ status: true })
+    }
 }
 
 
@@ -147,14 +156,16 @@ exports.getCart = async (req, res) => {
                 total: cartTotal,
                 productTotal,
                 Cart: true,
-                coupon
+                coupon,
+                title:"cart"
             })
         } else {
             res.render('user/cart', {
                 layout: "user-layout",
                 user: true,
                 Cart: true,
-                coupon
+                coupon,
+                title:"cart"
             })
         }
     } else {
@@ -162,6 +173,7 @@ exports.getCart = async (req, res) => {
             layout: "user-layout",
             user: true,
             Cart: true,
+            title:"cart"
         })
     }
 }
@@ -180,6 +192,14 @@ exports.incQty = (req, res) => {
         }
     }).catch((err) => {
 
+    })
+}
+
+exports.changeSize = (req, res) => {
+    const userId = req.session.user._id;
+    product.changeSize(userId, req.body)
+    res.json({
+        staus: true
     })
 }
 
@@ -357,7 +377,7 @@ exports.changePassword = async (req, res) => {
         const userDetails = await user.getUser(req.session.user)
         transporter.sendMail({
             to: userDetails.email,
-            subject: 'WearAgain Change P',
+            subject: 'Fahion Culture Change Password',
             html: `
         <p>Hai ${userDetails.f_name + " " + userDetails.l_name} Your Password Is Changed Succesfully</p>`
         })
@@ -430,18 +450,18 @@ exports.removeCoupon = async (req, res) => {
     const userId = req.session.user._id
     await product.removeCoupon(userId)
     res.json({
-        status:true
+        status: true
     })
 }
 
 
 exports.order = (req, res) => {
     res.render('user/order', { layout: "user-layout", user: true, order: true })
-} 
+}
 
 
 // invoice
 exports.generateInvoice = async (req, res) => {
     const orderDetails = await user.generateInvoice(req.params.orderId)
-    res.render('user/invoice', {layout: "user-layout", user:true, invoice:true, orderDetails})
+    res.render('user/invoice', { layout: "user-layout", user: true, invoice: true, orderDetails })
 }

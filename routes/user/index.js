@@ -32,7 +32,12 @@ router.get('/cart', isAuth, isBlocked, controller.getCart)
 
 router.post('/add-to-cart', isAuth, isBlocked, controller.addToCart)
 
+// addtocart from product details
+router.get('/add-to-cart', isAuth, isBlocked, controller.addToCart)
+
 router.post('/cart/change-qty', isAuth, isBlocked, controller.incQty)
+
+router.post('/cart/change-size', isAuth, isBlocked, controller.changeSize)
 
 router.post('/cart/removeProduct', isAuth, isBlocked,  controller.deleteCartProduct)
 

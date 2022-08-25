@@ -31,7 +31,23 @@
                                         </div>
                                         <div class="product__cart__item__text">
                                             <h6>{{this.products.product_name}}</h6>
-                                            <h5>Rs.{{this.products.discount_price}}</h5>
+                                            <div class="d-flex align-item-center">
+                                                <h5>Rs.{{this.products.discount_price}}</h5>
+                                                {{!-- <div class=" flex-w  ml-2" style="width: 140px;
+                                                                                        height: 20px;
+                                                                                        border: 1px solid #e6e6e6;
+                                                                                        border-radius: 3px;
+                                                                                        overflow: hidden">
+                                                    <select name="size" id="" style="width: 100%; border: none"
+                                                        onchange="changeSize('{{this._id}}', '{{this.products._id}}', this, event)">
+                                                        <option value="">{{this.size}}</option>
+
+                                                        {{#each products.size}}
+                                                        <option value="">{{this}}</option>
+                                                        {{/each}}
+                                                    </select>
+                                                </div> --}}
+                                            </div>
                                         </div>
                                     </td>
                                     <td class="quantity__item d-flex d-md-block justify-content-center">
@@ -55,6 +71,7 @@
                                         </div>
 
 
+
                                     </td>
                                     <td class="cart__price ">Rs.{{this.sum}}</td>
                                     <td class="cart__close"
@@ -70,7 +87,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn">
-                                <a href="#">Continue Shopping</a>
+                                <a href="/shop">Continue Shopping</a>
                             </div>
                         </div>
                     </div>
@@ -103,7 +120,7 @@
                                 </div>
                                 {{else}}
                                 <div class="d-flex align-items-center jstify-content-center">
-                                    <h6>OOps! You Have No Coupons!</h6>
+                                    <h6>No Coupons Available</h6>
                                 </div>
                                 {{/if}}
                             </div>

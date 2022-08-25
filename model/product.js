@@ -244,11 +244,20 @@ exports.getCategory = () => {
 }
 
 
-exports.addtoCart = (productId, userId) => {
+exports.addtoCart = (productId, size = null, qty= null, userId) => {
     const productObj = {
         item: objectId(productId),
-        qty: 1
+        qty: 1,
+        size:null
     }
+
+    if(size && qty){
+        productObj.qty = qty
+        productObj.size = size
+    }
+
+    console.log(size, qty);
+    
     return new Promise(async (resolve, reject) => {
         const userCart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
         if (userCart) {
@@ -256,7 +265,7 @@ exports.addtoCart = (productId, userId) => {
                 return product.item == productId
             })
             if (productExist != -1) {
-                console.log("prodExist", productExist);
+                // console.log("prodExist", productExist);
                 return db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectId(userId), 'products.item': objectId(productId) },
                     {
                         $inc: { 'products.$.qty': 1 }
@@ -305,9 +314,11 @@ exports.getCartItems = (userId) => {
                 {
                     $project: {
                         item: '$products.item',
-                        qty: '$products.qty'
+                        qty: '$products.qty',
+                        size:"$products.size"
                     }
-                }, {
+                },
+                {
                     $lookup: {
                         from: collection.PRODUCT_COLLECTIION,
                         localField: 'item',
@@ -317,7 +328,7 @@ exports.getCartItems = (userId) => {
                 },
                 {
                     $project: {
-                        item: 1, qty: 1, products: { $arrayElemAt: ['$product', 0] }
+                        item: 1, qty: 1, size:1, products: { $arrayElemAt: ['$product', 0] }
                     }
                 },
                 {
@@ -325,10 +336,9 @@ exports.getCartItems = (userId) => {
                         sum: { $multiply: ["$products.discount_price", "$qty"] }
                     }
                 }
-
             ]
         ).toArray()
-        // console.log("cartitems", cartItems);
+        console.log("cartitems", cartItems);
         if (cartItems) {
             const total = await db.get().collection(collection.CART_COLLECTION).aggregate(
                 [
@@ -388,6 +398,18 @@ exports.incQtyAndTotal = (userId, data) => {
                 total
             }
             resolve(res)
+        })
+    })
+}
+
+exports.changeSize = (userId, data) => {
+    return new Promise(async (resolve, reject) => {
+        return db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectId(data.cart), 'products.item': objectId(data.product) },
+            {
+                $inc: { 'products.$.size': data.size }
+            }
+        ).then((response) => {
+            resolve()
         })
     })
 }
