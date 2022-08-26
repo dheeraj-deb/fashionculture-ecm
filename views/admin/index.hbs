@@ -192,7 +192,7 @@
     data: {
       labels: ['deliverd', 'pending', 'placed', 'shipped', 'canceled'],
       datasets: [{
-        label: '# of Votes',
+        label: '# of orders',
         data: [{{ordersData.deliverd}}, {{ordersData.pending}}, {{ordersData.placed}}, {{ordersData.shipped}}, {{ordersData.canceled}}],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
@@ -203,45 +203,6 @@
           'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
           'rgba(255, 206, 86, 1)',
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-
-
-
-  //order chart
-
-  const ctxx = document.getElementById('orders-chart').getContext('2d');
-  const myChartt = new Chart(ctxx, {
-    type: 'polarArea',
-    data: {
-      labels: ['deliverd', 'canceled', 'pending', 'placed', 'shipped'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
         ],
         borderWidth: 1
       }]
