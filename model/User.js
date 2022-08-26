@@ -558,8 +558,12 @@ exports.getCartCount = (userId) => {
 exports.getWishlistCount = (userId) => {
     return new Promise(async (resolve, reject) => {
         const whishlist = await db.get().collection(collection.WHISHLIST_COLLECTION).find({ user: userId }).toArray()
+       if(whishlist.length){
         const whishlistCount = whishlist[0].product.length
         resolve(whishlistCount)
+       }else{
+        resolve(0)
+       }
     })
 }
 
