@@ -10,6 +10,8 @@ const nocache = require('nocache');
 const flash = require('connect-flash');
 const multer = require('multer');
 const handlebars = require('handlebars')
+const passport = require('passport')
+require('./middleware/passport')
 
 const db = require('./util/database')
 
@@ -81,6 +83,9 @@ app.use(session({
   }
 }))
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash())
 
 
@@ -95,6 +100,7 @@ app.use('/admin', adminRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -124,5 +130,6 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

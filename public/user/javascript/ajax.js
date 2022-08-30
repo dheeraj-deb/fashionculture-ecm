@@ -344,9 +344,9 @@ function create_coupon_discount(event) {
         data: { coupon: $("#coupon_input").val() },
         method: "post",
         success: (response) => {
+            console.log(response);
             if (response.status.isValid) {
-                $('.toast').toast('show')
-                $("#discount").text(response.discount.discount)
+                $("#discount").text(`Rs.${response.discount.discount}`)
                 $("#total").text(`Rs.${response.discount.d_total}`)
                 $("#coupon-applied").text(`Coupon Applied! ${response.discount.discount}`)
                 $('#remove').text("Remove")

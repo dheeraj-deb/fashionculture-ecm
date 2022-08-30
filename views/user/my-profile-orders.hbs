@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="fs-8" style="color: black;
                                                             font-weight: 400;">{{this.orderObj.date}}</div>
-                                <div class="rating d-flex align-items-center pt-1">
+                                {{!-- <div class="rating d-flex align-items-center pt-1">
                                     <img src="https://www.freepnglogos.com/uploads/like-png/like-png-hand-thumb-sign-vector-graphic-pixabay-39.png"
                                         alt=""><span class="px-2">Rating:</span>
                                     <span class="fas fa-star"></span>
@@ -27,7 +27,11 @@
                                     <span class="fas fa-star"></span>
                                     <span class="fas fa-star"></span>
                                     <span class="far fa-star"></span>
-                                </div>
+                                </div> --}}
+                                <h6 class="fs-5 mt-2" style="color: black;
+                                                            font-weight: 400;"> Total :
+                                    {{#if this.orderObj.coupon_discount}}
+                                    {{this.orderObj.coupon_discount}} {{else}} {{this.orderObj.totalAmount}} {{/if}}</h6> 
                             </div>
                         </div>
                         <div class="col-lg-8">
@@ -36,7 +40,8 @@
                                     this.orderprossesing}}
                                     Order is under prossessing {{else}} {{this.orderObj.status}} {{/if}}</div>
                                 <div>
-                                    <a class="btn" href="/myaccount/orders/invoice/{{this.orderObj.orderId}}">view invoice</a>
+                                    <a class="btn" href="/myaccount/orders/invoice/{{this.orderObj.orderId}}">view
+                                        invoice</a>
                                     <div class="btn btn-outline-dark text-uppercase" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasEnd{{this.orderObj.orderId}}"
                                         aria-controls="offcanvasEnd">order info</div>

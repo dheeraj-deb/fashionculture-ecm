@@ -15,7 +15,8 @@
                             alt="">
                         <div class="d-flex align-items-center mt-2">
                             <div class="tag">Orders placed</div>
-                            <div class="ms-auto number">{{#if orderDetails.length }} {{orderDetails.length}} {{else}} 0 {{/if}}</div>
+                            <div class="ms-auto number">{{#if orderDetails.length }} {{orderDetails.length}} {{else}} 0
+                                {{/if}}</div>
                         </div>
                     </div>
                     <div class="box me-4 my-1 bg-light">
@@ -31,7 +32,8 @@
                             alt="">
                         <div class="d-flex align-items-center mt-2">
                             <div class="tag">Wishlist</div>
-                            <div class="ms-auto number">{{#if whishlistCount }} {{whishlistCount}} {{else}} 0 {{/if}}</div>
+                            <div class="ms-auto number">{{#if whishlistCount }} {{whishlistCount}} {{else}} 0 {{/if}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -46,7 +48,7 @@
                                     <div class="blue-label ms-auto text-uppercase">{{this.orderObj.paymentmethod}}</div>
                                 </div>
                                 <div class="fs-8 text-dark">{{this.orderObj.date}}</div>
-                                <div class="rating d-flex align-items-center pt-1">
+                                {{!-- <div class="rating d-flex align-items-center pt-1">
                                     <img src="https://www.freepnglogos.com/uploads/like-png/like-png-hand-thumb-sign-vector-graphic-pixabay-39.png"
                                         alt=""><span class="px-2">Rating:</span>
                                     <span class="fas fa-star"></span>
@@ -54,17 +56,23 @@
                                     <span class="fas fa-star"></span>
                                     <span class="fas fa-star"></span>
                                     <span class="far fa-star"></span>
-                                </div>
+                                </div> --}}
+                                <h6 class="fs-5 mt-2" style="color: black;
+                                                            font-weight: 400;"> Total :
+                                    {{#if this.orderObj.coupon_discount}}
+                                    {{this.orderObj.coupon_discount}} {{else}} {{this.orderObj.totalAmount}} {{/if}}
+                                </h6>
                             </div>
                         </div>
                         <div class="col-lg-8">
-                                 
+
                             <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
                                 <div class="status" style="color: black; font-weight: 400;">Status : {{#if
                                     this.orderprossesing}}
                                     Order is under prossessing {{else}} {{this.orderObj.status}} {{/if}}</div>
                                 <div>
-                                    <a class="btn" href="/myaccount/orders/invoice/{{this.orderObj.orderId}}">view invoice</a>
+                                    <a class="btn" href="/myaccount/orders/invoice/{{this.orderObj.orderId}}">view
+                                        invoice</a>
                                     <div class="btn btn-outline-dark text-uppercase" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasEnd{{this.orderObj.orderId}}"
                                         aria-controls="offcanvasEnd">order info</div>
@@ -138,33 +146,54 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="offcanvas-body mx-0 flex-grow-0">
-                                <ul class="header-cart-wrapitem w-full">
-                                    {{#each this.orderObj.products}}
-                                    <li class="header-cart-item flex-w flex-t m-b-12">
-                                        <div class="header-cart-item-img">
-                                            <a href="/product_details/{{this.products._id}}">
-                                                <img src="/images/{{this.products.img_id.[0]}}" alt="IMG">
-                                            </a>
-                                        </div>
+                                <div>
+                                    <ul class="header-cart-wrapitem w-full">
+                                        {{#each this.orderObj.products}}
+                                        <li class="header-cart-item flex-w flex-t m-b-12">
+                                            <div class="header-cart-item-img">
+                                                <a href="/product_details/{{this.products._id}}">
+                                                    <img src="/images/{{this.products.img_id.[0]}}" alt="IMG">
+                                                </a>
+                                            </div>
 
-                                        <div class="header-cart-item-txt p-t-8">
-                                            <a href="#" class="header-cart-item-name  hov-cl1 trans-04">
-                                                {{this.products.product_name}}
-                                            </a>
+                                            <div class="header-cart-item-txt p-t-8">
+                                                <a href="#" class="header-cart-item-name  hov-cl1 trans-04 text-dark">
+                                                    {{this.products.product_name}}
+                                                </a>
 
-                                            <span class="header-cart-item-info">
-                                                price : {{this.products.discount_price}}
-                                            </span>
-                                            <span class="header-cart-item-info">
-                                                qty : {{this.qty}}
-                                            </span>
-                                             <span class="header-cart-item-info">
-                                                size : {{this.size}}
-                                            </span>
-                                        </div>
-                                    </li>
-                                    {{/each}}
-                                </ul>
+                                                <span class="header-cart-item-info  text-dark">
+                                                    price : {{this.products.discount_price}}
+                                                </span>
+                                                <span class="header-cart-item-info  text-dark">
+                                                    qty : {{this.qty}}
+                                                </span>
+                                                <span class="header-cart-item-info  text-dark">
+                                                    size : {{this.size}}
+                                                </span>
+                                            </div>
+                                        </li>
+                                        {{/each}}
+                                        <h6 class="fs-6 mt-2" style="color: black;
+                                                            font-weight: 400;"> Total Amount :
+                                            Rs.{{this.orderObj.totalAmount}}
+                                        </h6>
+
+                                        <h6 class="fs-6 mt-2" style="color: black;
+                                                            font-weight: 400;"> Discounted Amount :
+                                            {{#if this.orderObj.coupon_discount}}
+                                            {{this.orderObj.coupon_discount}}
+                                            {{else}}
+                                            Rs.0
+                                            {{/if}}
+                                        </h6>
+
+
+
+
+                                    </ul>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>

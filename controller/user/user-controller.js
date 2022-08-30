@@ -2,6 +2,7 @@ const product = require('../../model/product');
 const user = require('../../model/User');
 const nodeMailer = require('nodemailer');
 const session = require('express-session');
+const passport = require('passport')
 require('dotenv').config()
 let prod;
 let cartProducts;
@@ -110,7 +111,7 @@ exports.getProducts = async (req, res) => {
         if (searchProduct) {
             prod = searchProduct;
         }
-        res.render('user/shop', { product: prod, layout: "user-layout", title:'shop', user: true, Shop: true })
+        res.render('user/shop', { product: prod, layout: "user-layout", title: 'shop', user: true, Shop: true })
         searchProduct = null;
     }
 }
@@ -120,7 +121,7 @@ exports.productDetails = (req, res) => {
     const productId = req.params.id;
     product.findProductById(productId).then((prod) => {
         if (prod) {
-            return res.render('user/product-details', { product: prod, title:'Product', layout: "user-layout", user: true })
+            return res.render('user/product-details', { product: prod, title: 'Product', layout: "user-layout", user: true })
         }
 
     })
@@ -147,7 +148,7 @@ exports.getCart = async (req, res) => {
     console.log(cartProducts);
     if (cartProducts) {
         cartTotal = await product.getCartTotal(req.session.user._id)
-        const coupon = await product.getCoupon(req.session.user._id);
+
         if (cartTotal) {
             res.render('user/cart', {
                 layout: "user-layout",
@@ -156,16 +157,14 @@ exports.getCart = async (req, res) => {
                 total: cartTotal,
                 productTotal,
                 Cart: true,
-                coupon,
-                title:"cart"
+                title: "cart"
             })
         } else {
             res.render('user/cart', {
                 layout: "user-layout",
                 user: true,
                 Cart: true,
-                coupon,
-                title:"cart"
+                title: "cart"
             })
         }
     } else {
@@ -173,7 +172,7 @@ exports.getCart = async (req, res) => {
             layout: "user-layout",
             user: true,
             Cart: true,
-            title:"cart"
+            title: "cart"
         })
     }
 }
@@ -212,23 +211,20 @@ exports.deleteCartProduct = (req, res) => {
 
 
 
-exports.getplaceOrder = (req, res) => {
+exports.getplaceOrder = async (req, res) => {
     const userId = req.session.user._id;
+    const coupon = await product.getCoupon(req.session.user._id);
     user.getAddress(userId).then(async (address) => {
-        const discountPrice = await product.isDiscountAvailable(userId)
-        if (discountPrice) {
-            console.log(discountPrice);
-            res.render('user/place-order', { layout: "user-layout", user: true, addr: true, total: discountPrice, address })
-        } else {
-            product.getCartTotal(userId).then((total) => {
-                console.log(total);
-                res.render('user/place-order', { layout: "user-layout", user: true, addr: true, total: total, address })
-            })
-        }
+        product.getCartTotal(userId).then((total) => {
+            console.log(total);
+            res.render('user/place-order', { layout: "user-layout", placeorder: true, user: true, addr: true, total, coupon, address })
+        })
+
     })
 }
 
 exports.placeOrder = async (req, res) => {
+    console.log(req.body);
     let totalPrice;
     const products = await product.getCartItems(req.session.user._id);
     const discount_price = await product.isDiscountAvailable(req.session.user._id)
@@ -239,12 +235,11 @@ exports.placeOrder = async (req, res) => {
     } else {
         totalPrice = cartTotal
     }
-    user.placeOrder(req.body, products, totalPrice, address, req.session.user._id).then((response) => {
+    user.placeOrder(req.body, products, cartTotal, discount_price, address, req.session.user._id).then((response) => {
         if (req.body.paymentmethod === 'cod') {
             res.json({ sts: true })
         } else {
             user.generateRazopay(totalPrice, response).then((response) => {
-                console.log("responseeeeeeeee", response);
                 res.json(response)
             })
         }
@@ -442,7 +437,6 @@ exports.getUserAddress = async (req, res) => {
 
 exports.create_coupon_discount = async (req, res) => {
     const disObj = await product.create_coupon_discount(req.body.coupon, req.session.user._id)
-    console.log(disObj);
     res.json(disObj)
 }
 
@@ -465,3 +459,6 @@ exports.generateInvoice = async (req, res) => {
     const orderDetails = await user.generateInvoice(req.params.orderId)
     res.render('user/invoice', { layout: "user-layout", user: true, invoice: true, orderDetails })
 }
+
+
+

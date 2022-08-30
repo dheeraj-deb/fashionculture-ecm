@@ -418,15 +418,17 @@ exports.changePassword = (password, cr_pass, userId) => {
 }
 
 
-exports.placeOrder = (order, products, total, address, userId) => {
-    console.log("totl", total);
+exports.placeOrder = (order, products, cartTotal, coupon_discount,  address, userId) => {
+    let discountedAmd = null
     return new Promise(async (resolve, reject) => {
         const status = order.paymentmethod === 'cod' ? 'placed' : 'pending';
+        coupon_discount < cartTotal ? discountedAmd = coupon_discount : discountedAmd
         const orderObj = {
             orderId: new objectId(),
             addr: address[0].address,
             paymentmethod: order.paymentmethod,
-            totalAmount: total,
+            totalAmount: cartTotal,
+            coupon_discount:discountedAmd,
             products: products,
             status: status,
             date: new Date().toDateString()
@@ -462,6 +464,14 @@ exports.findOrders = (userId) => {
         resolve(orders)
     })
 }
+
+// exports.orderProductsTotal = (userId) => {
+//     return new Promise((resolve, reject) => {
+//         const productTotal = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+//         ])
+//     })
+// }
 
 exports.findLimitedOrders = (userId) => {
     return new Promise(async (resolve, reject) => {
@@ -573,6 +583,7 @@ exports.getOrderCount = (userId) => {
         resolve(orderCount)
     })
 }
+
 
 
 // invoice

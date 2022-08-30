@@ -93,66 +93,13 @@
                     </div>
                 </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Copy Your Coupon</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                {{#if coupon}}
-                                <div class="row">
-                                    <div class="col-6">
-                                        <img src="/Coupon 8x3 in.jpeg" alt="">
-                                    </div>
-                                    <div class="col-6">
-                                        <h4 class="text-dark">Fashion Culture</h4>
-                                        <h6 id="textToCopy">{{coupon.code}}</h6>
-                                        <p id="copyResult"></p>
-                                        <h6>Save {{coupon.value}}%</h6>
-                                        <h6>Valid till {{coupon.end_date}}</h6>
-                                    </div>
-                                </div>
-                                {{else}}
-                                <div class="d-flex align-items-center jstify-content-center">
-                                    <h6>No Coupons Available</h6>
-                                </div>
-                                {{/if}}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="copyButton">Copy</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="col-lg-4">
-                    <div class="cart__discount ">
-                        <h6 class="mb-1">Discount codes</h6>
-                        <form class="mb-3">
-                            <input type="text" id="coupon_input" name="coupon_code" placeholder="Coupon code">
-                            <button type="button" onclick="create_coupon_discount(event)">Apply</button>
-                        </form>
-                        <button onclick="showCoupon(event)" class="btn btn-dark" data-toggle="modal"
-                            data-target="#exampleModalCenter"
-                            style="border-radius: 0px; background-color: #111111; border-color: #111111;">Show
-                            Coupons</button>
-                    </div>
+
                     <div class="cart__total">
                         <h6>Cart total</h6>
-                        <div class="d-flex justify-content-between">
-                            <h6 id="coupon-applied" class="me-1"></h6>
-                            <a href="" id="remove" onclick="removeCoupon(event)" class="text-danger"></a>
-                        </div>
                         <ul>
-                            <li>Subtotal <span>Rs.{{total}}</span></li>
-                            <li>Discount <span>Rs.<span id="discount"></span></span></li>
-                            <li>Total <span id="total">Rs.{{total}}</span></li>
+                            <li>Total <span>Rs.{{total}}</span></li>
                         </ul>
                         <a href="/placeorder" class="primary-btn">Proceed to checkout</a>
                     </div>
@@ -175,34 +122,3 @@
 </div>
 
 
-<script>
-
-
-    function showCoupon() {
-        const answer = document.getElementById("copyResult");
-        const copy = document.getElementById("copyButton");
-        const selection = window.getSelection();
-        const range = document.createRange();
-        const textToCopy = document.getElementById("textToCopy")
-
-        copy.addEventListener('click', function (e) {
-            range.selectNodeContents(textToCopy);
-            selection.removeAllRanges();
-            selection.addRange(range);
-            const successful = document.execCommand('copy');
-            if (successful) {
-                textToCopy.style = "display:none"
-                answer.innerHTML = 'Coupon Copied!';
-            } else {
-                answer.innerHTML = 'Unable to copy!';
-            }
-            window.getSelection().removeAllRanges()
-        });
-    }
-
-
-
-
-
-
-</script>

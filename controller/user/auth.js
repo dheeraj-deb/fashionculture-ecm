@@ -131,7 +131,24 @@ exports.postNewPassword = (req, res) => {
 }
 
 
+exports.authenticateGoogleOauth = {
+}
 
+exports.googleAuthSuccess = (req, res) => {
+    if (!req.user)
+        res.redirect('/auth/callback/failure');
+    console.log(req.user);
+    req.session.isUserLoggedIn = true;
+    const user = {
+        _id: req.user.id,
+        f_name: req.user.given_name,
+        l_name: req.user.family_name,
+        email: req.user.email
+    }
+    req.session.user = user;
+    console.log(req.session);
+    res.redirect('/')
+}
 
 
 
@@ -142,5 +159,6 @@ exports.logout = (req, res) => {
         if (err) throw err
         res.redirect('/')
     })
+
 }
 

@@ -1,8 +1,9 @@
-var express = require('express');
+const express = require('express');
 const controller = require('../../controller/user/user-controller');
 const isAuth = require('../../middleware/user/is-auth');
 const isBlocked = require('../../middleware/user/isBlocked');
-var router = express.Router();
+const router = express.Router();
+const passport = require('passport')
 
 /* GET home page. */
 
@@ -39,10 +40,10 @@ router.post('/cart/change-qty', isAuth, isBlocked, controller.incQty)
 
 router.post('/cart/change-size', isAuth, isBlocked, controller.changeSize)
 
-router.post('/cart/removeProduct', isAuth, isBlocked,  controller.deleteCartProduct)
+router.post('/cart/removeProduct', isAuth, isBlocked, controller.deleteCartProduct)
 
 
-router.get('/placeorder',isAuth, controller.getplaceOrder);
+router.get('/placeorder', isAuth, controller.getplaceOrder);
 
 router.post('/place-order', isAuth, controller.placeOrder);
 
@@ -101,5 +102,10 @@ router.post('/remove-coupon', isAuth, controller.removeCoupon)
 // invoice
 
 router.get('/myaccount/orders/invoice/:orderId', isAuth, controller.generateInvoice)
+
+// google Oauth
+
+
+
 
 module.exports = router;

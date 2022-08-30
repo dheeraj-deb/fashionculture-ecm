@@ -1,6 +1,7 @@
 {{>user/header-v4}}
 
 <form id="place-order-form">
+    <input type="hidden" value="hello">
     <section class="h-100 gradient-custom" id="refresh-section">
         <div class="container py-5">
             <div class="row d-flex justify-content-center my-4">
@@ -60,14 +61,16 @@
                                                         <div class="col mb-3">
                                                             <input type="text" name="address" id="address"
                                                                 class="form-control"
-                                                                placeholder="Address (House No, Building,Street, Area)" required />
+                                                                placeholder="Address (House No, Building,Street, Area)"
+                                                                required />
                                                         </div>
                                                     </div>
 
                                                     <div class="row">
                                                         <div class="col mb-3">
                                                             <input type="text" name="locality-town" id="locality"
-                                                                class="form-control" placeholder="Locality / Town" required />
+                                                                class="form-control" placeholder="Locality / Town"
+                                                                required />
                                                         </div>
                                                     </div>
 
@@ -75,7 +78,8 @@
                                                         <div class="col mb-0">
 
                                                             <input type="text" name="district" id="district"
-                                                                class="form-control" placeholder="District" required="true" />
+                                                                class="form-control" placeholder="District"
+                                                                required="true" />
                                                         </div>
                                                         <div class="col mb-0">
                                                             <input type="text" name="state" id="state"
@@ -111,8 +115,8 @@
                                             class="address-header d-flex justify-content-between align-items-center mb-1">
                                             <div class="d-flex justify-content-between d1">
                                                 <div class="d-flex">
-                                                    <input type="radio" checked="checked" name="address" value="{{this._id.time}}"
-                                                        class="me-2">
+                                                    <input type="radio" checked="checked" name="address"
+                                                        value="{{this._id.time}}" class="me-2">
                                                     {{!-- <input type="hidden" name="address-id" id=""
                                                         value="{{this._id.time}},"> --}}
                                                     <h6>{{this._id.name}}</h6>
@@ -165,21 +169,87 @@
                         </div>
                     </div>
                 </div>
+                <!--Coupon Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Copy Your Coupon</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{#if coupon}}
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img src="/Coupon 8x3 in.jpeg" alt="">
+                                    </div>
+                                    <div class="col-6">
+                                        <h4 class="text-dark">Fashion Culture</h4>
+                                        <h6 id="textToCopy">{{coupon.code}}</h6>
+                                        <p id="copyResult"></p>
+                                        <h6>Save {{coupon.value}}%</h6>
+                                        <h6>Valid till {{coupon.end_date}}</h6>
+                                    </div>
+                                </div>
+                                {{else}}
+                                <div class="d-flex align-items-center jstify-content-center">
+                                    <h6>No Coupons Available</h6>
+                                </div>
+                                {{/if}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="copyButton">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- coupon modal end!--}}
                 <div class="col-md-4">
+                    <div class="cart__discount ">
+                        <h6 class="mb-1">Discount codes</h6>
+                        <form class="mb-3">
+                            <input type="text" id="coupon_input" name="coupon_code" placeholder="Coupon code">
+                            <button type="button" onclick="create_coupon_discount(event)">Apply</button>
+                        </form>
+                        <button onclick="showCoupon(event)" class="btn btn-dark" data-toggle="modal"
+                            data-target="#exampleModalCenter"
+                            style="border-radius: 0px; background-color: #111111; border-color: #111111;">Show
+                            Coupons</button>
+                    </div>
                     <div class="card mb-4">
                         <div class="card-header py-3">
                             <h5 class="mb-0">Summary</h5>
                         </div>
                         <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h6 id="coupon-applied" class="me-1"></h6>
+                                <a href="" id="remove" onclick="removeCoupon(event)" class="text-danger"></a>
+                            </div>
                             <ul class="list-group list-group-flush">
-                                
                                 <li
-                                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-2">
+                                    <div>
+                                        <strong>Subtotal</strong>
+                                    </div>
+                                    <span><strong>Rs.{{total}}</strong></span>
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-2">
+                                    <div>
+                                        <strong>Discount</strong>
+                                    </div>
+                                    <span><strong id="discount">Rs.0</strong></span>
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-2">
                                     <div>
                                         <strong>Total amount</strong>
                                     </div>
-                                    <span><strong>Rs.{{#if total }} {{total}} {{else}} 0
-                                            {{/if}}</strong></span>
+                                    <span><strong id="total">{{total}}</strong></span>
                                 </li>
                             </ul>
 
@@ -252,6 +322,32 @@
         margin: 30px 0 10px;
     }
 </style>
+
+
+<script>
+    function showCoupon() {
+        const answer = document.getElementById("copyResult");
+        const copy = document.getElementById("copyButton");
+        const selection = window.getSelection();
+        const range = document.createRange();
+        const textToCopy = document.getElementById("textToCopy")
+
+        copy.addEventListener('click', function (e) {
+            range.selectNodeContents(textToCopy);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            const successful = document.execCommand('copy');
+            if (successful) {
+                textToCopy.style = "display:none"
+                answer.innerHTML = 'Coupon Copied!';
+            } else {
+                answer.innerHTML = 'Unable to copy!';
+            }
+            window.getSelection().removeAllRanges()
+        });
+    }
+
+</script>
 
 {{!--
 <script>
