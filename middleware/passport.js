@@ -11,7 +11,7 @@ passport.use(
       clientID:
         "323934525481-kjfv1vgg24qtrdtdjl0dbb6a0niso763.apps.googleusercontent.com", // Your Credentials here.
       clientSecret: "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", // Your Credentials here.
-      callbackURL: "http://localhost:3000/auth/google/callback",
+      callbackURL: "https://fashioncluture.ml",
       passReqToCallback: true,
     },
     async function (request, accessToken, refreshToken, profile, done) {
