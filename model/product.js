@@ -761,6 +761,7 @@ exports.create_coupon_discount = async (couponCode, userId) => {
 exports.isDiscountAvailable = (userId) => {
     return new Promise(async (resolve, reject) => {
         const cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: userId });
+        console.log(cart);
         if (cart.total) {
             return resolve(cart.total)
         }

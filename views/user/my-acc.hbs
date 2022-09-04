@@ -173,19 +173,27 @@
                                             </div>
                                         </li>
                                         {{/each}}
-                                        <h6 class="fs-6 mt-2" style="color: black;
-                                                            font-weight: 400;"> Total Amount :
-                                            Rs.{{this.orderObj.totalAmount}}
-                                        </h6>
-
-                                        <h6 class="fs-6 mt-2" style="color: black;
-                                                            font-weight: 400;"> Discounted Amount :
-                                            {{#if this.orderObj.coupon_discount}}
-                                            {{this.orderObj.coupon_discount}}
-                                            {{else}}
-                                            Rs.0
-                                            {{/if}}
-                                        </h6>
+                                        <div>
+                                        {{#if orderObj.coupon_discount}}
+                                        <li class="mb-2" >
+                                        <h6 class="fs-6 text-dark" style="font-weight:400;">Subtotal : Rs. {{orderObj.totalAmount}}</h6>
+                                        </li>
+                                    {{else}}
+                                        <li class="mb-2">
+                                        <h6 class="fs-6 text-dark" style="font-weight:400;">Total : Rs. {{orderObj.totalAmount}}</h6>
+                                        </li>
+                                    {{/if}}
+                                    {{#if discount}}
+                                    <li class="mb-2">
+                                        <h6 class="fs-6 text-dark" style="font-weight:400;">Discount : Rs. {{discount}}</h6>
+                                    </li>
+                                    {{/if}}
+                                    {{#if orderObj.coupon_discount}}
+                                    <li class="mb-2">
+                                        <h6 class="fs-6 text-dark" style="font-weight:400;">Total : Rs. {{orderObj.coupon_discount}}</h6>
+                                    </li>
+                                    {{/if}}
+                                    </div>
 
 
 
