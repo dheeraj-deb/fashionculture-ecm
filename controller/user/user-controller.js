@@ -117,18 +117,23 @@ exports.getProducts = async (req, res) => {
 };
 
 // product details
-exports.productDetails = (req, res) => {
+exports.productDetails = (req, res, next) => {
   const productId = req.params.id;
-  product.findProductById(productId).then((prod) => {
-    if (prod) {
-      return res.render("user/product-details", {
-        product: prod,
-        title: "Product",
-        layout: "user-layout",
-        user: true,
-      });
-    }
-  });
+  product
+    .findProductById(productId)
+    .then((prod) => {
+      if (prod) {
+        return res.render("user/product-details", {
+          product: prod,
+          title: "Product",
+          layout: "user-layout",
+          user: true,
+        });
+      }
+    })
+    .catch((error) => {
+      next(error);
+    });
 };
 
 // add to cart
@@ -138,7 +143,7 @@ exports.addToCart = async (req, res) => {
     const { size, proId } = req.query;
     const qty = parseInt(req.query["num-product"]);
     await product.addtoCart(proId, size, qty, userId);
-    res.redirect('/shop')
+    res.redirect("/shop");
   } else {
     console.log("here");
     await product.addtoCart(
@@ -147,7 +152,7 @@ exports.addToCart = async (req, res) => {
       null,
       req.session.user._id
     );
-    res.redirect('/shop')
+    res.redirect("/shop");
   }
 };
 

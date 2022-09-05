@@ -5,11 +5,16 @@ let productTotal;
 
 exports.findProductById = (productId) => {
     return new Promise(async (resolve, reject) => {
-        const product = await db.get().collection(collection.PRODUCT_COLLECTIION).findOne({ _id: objectId(productId) })
-        if (product) {
-            return resolve(product)
+        try {
+            const product = await db.get().collection(collection.PRODUCT_COLLECTIION).findOne({ _id: objectId(productId) })
+            if (product) {
+                return resolve(product)
+            }
+            resolve()
+        } catch (error) {
+            reject(error)
         }
-        resolve()
+       
     })
 }
 
