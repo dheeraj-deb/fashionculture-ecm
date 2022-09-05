@@ -110,11 +110,11 @@ exports.updateProduct = (req, res) => {
   });
   req.body.img_id = img;
   product.editProduct(req.body, req.params.id).then((response) => {
-    console.log(req.files);
+    console.log(response);
     if (response) {
       res.redirect("/admin/product");
     }
-  });
+  }).catch((error) => console.log(error))
 };
 
 exports.getUser = (req, res) => {

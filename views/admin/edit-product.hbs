@@ -39,37 +39,35 @@
                                         <div class="mb-2">
                                             <label class="form-label" for="price">Actual Price(inr)</label>
                                             <div class="input-group input-group-merge">
-                                                <input type="number" id="price" name="price" value="{{product.actual_price}}"
+                                                <input type="number" id="price" name="actual_price" value="{{product.actual_price}}"
                                                     class="form-control" placeholder="" />
                                             </div>
                                         </div>
                                         <div class="mb-2">
                                             <label class="form-label" for="price">Discount Price(inr)</label>
                                             <div class="input-group input-group-merge">
-                                                <input type="number" id="price" name="price" value="{{product.discount_price}}"
+                                                <input type="number" id="price" name="discount_price" value="{{product.discount_price}}"
                                                     class="form-control" placeholder="" />
                                             </div>
                                         </div>
+                                        
                                         <div class="mb-3">
                                             <label for="exampleFormControlSelect1" class="form-label">Select
                                                 Category</label>
-                                            <select class="form-select" id="exampleFormControlSelect1" name="category"
+                                            <select class="form-select" required id="exampleFormControlSelect1" name="category"
                                                 aria-label="Default select example">
-                                                <option selected>Default</option>
-                                                {{!-- {{#each category}} --}}
                                                 <option {{#when product.category 'eq' "men's" }}selected{{/when}}
                                                     value="{{category.[0]._id}}">{{category.[0].category}}</option>
                                                 <option {{#when product.category 'eq' "women's" }}selected{{/when}}
                                                     value="{{category.[1]._id}}">{{category.[1].category}}</option>
                                                 <option {{#when product.category 'eq' "kids" }}selected{{/when}}
                                                     value="{{category.[2]._id}}">{{category.[2].category}}</option>
-                                                {{!-- {{/each}} --}}
                                             </select>
                                         </div>
 
                                         <div class="mb-2">
                                             <label class="form-label" for="stock">Stock</label>
-                                            <input type="number" id="stock" name="stock_s" value="{{product.stock}}"
+                                            <input type="number" id="stock" name="stock" value="{{product.stock}}"
                                                 class="form-control phone-mask" placeholder="stock" />
                                         </div>
 
@@ -142,7 +140,7 @@
                                             width: 145px;
                                             top: 4px;
                                             left: 4px;
-                                            height: 143px;" onchange="viewImage1(event)">
+                                            height: 143px;" onchange="viewImage1(event)" required>
                                             <img class="img-fluid mb-2" src="/images/{{product.img_id.[1]}}"
                                                 alt="product-image" width="150px" height="150px" id="imgView2"
                                                 style="max-height: 145px; object-fit: cover;">

@@ -155,22 +155,20 @@ exports.getProduct = (id) => {
 
 
 exports.editProduct = (productDtls, id) => {
+    console.log(productDtls, id);
+    productDtls.tags = productDtls.tags.split(',')
     productDtls.category = objectId(productDtls.category)
     return new Promise((resolve, reject) => {
         db.get().collection(collection.PRODUCT_COLLECTIION).updateOne({ _id: objectId(id) }, {
             $set: {
                 product_name: productDtls.product_name,
                 brand_name: productDtls.brand_name,
-                actual_price: productDtls.actual_price,
-                discount_price: productDtls.discount_price,
+                actual_price: parseInt(productDtls.actual_price),
+                discount_price: parseInt(productDtls.discount_price),
                 category: productDtls.category,
-                stock_s: productDtls.stock_s,
-                stock_m: productDtls.stock_m,
-                stock_l: productDtls.stock_l,
-                stock_xl: productDtls.stock_xl,
-                c_color: productDtls.c_color,
+                stock:productDtls.stock,
+                size:productDtls.size,
                 discription: productDtls.discription,
-                color: productDtls.color,
                 tags: productDtls.tags,
                 img_id: productDtls.img_id
             }

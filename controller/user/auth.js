@@ -187,6 +187,15 @@ exports.googleAuthSuccess = async (req, res, next) => {
         req.session.isUserLoggedIn = true;
         req.session.user = user;
         res.redirect("/");
+
+        transporter.sendMail({
+          to: email,
+          subject: "FashionCulture",
+          html: `
+              <p>Hai ${
+                f_name + " " + l_name
+              } You have successfully registered in Fashioncluture.ml <br> Please login to browse your products</p>`,
+        });
       }
     } catch (error) {
       next(error);

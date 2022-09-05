@@ -67,53 +67,50 @@
                                         </td>
                                         <td class=""><span><a style="
                                          font-size: 13px;
-                                         color: #fff;" data-bs-toggle="modal"
-                                                    data-bs-target="#productmodal{{this.orderObj.orderId}}"
+                                         color: #fff;" data-bs-toggle="offcanvas" 
+                                                    data-bs-target="#offcanvasRight{{this.orderObj.orderId}}"
                                                     class="btn btn-primary" href="">View Products</a></span>
                                         </td>
                                     </tr>
 
                                 </tbody>
 
-                                <div class="col-lg-4 col-md-3">
 
-                                    <!-- product Modal -->
-                                    <div class="modal fade" id="productmodal{{this.orderObj.orderId}}" tabindex="-1"
-                                        aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalScrollableTitle">Modal title</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="wrapper">
-                                                        <div class="row">
+
+                                {{!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button> --}}
+
+                                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight{{this.orderObj.orderId}}" aria-labelledby="offcanvasRightLabel">
+                                  <div class="offcanvas-header">
+                                    <h5 id="offcanvasRightLabel">Orders</h5>
+                                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                  </div>
+                                  <div class="offcanvas-body">
+                                    <div class="wrapper">
+                                                        
                                                             {{#each this.orderObj.products}}
-                                                            <div class=" col-6 col-md-4">
-                                                                <div style="
-                                                                display: flex;
-                                                                flex-flow: column;
-                                                                align-items: center;
-                                                                box-shadow: 0px 0px 4px -1px rgb(33 33 33);
+                                                            <div class="text-wrap" style="
                                                                 margin-bottom: 1rem;
-                                                                ">
-                                                                    <img src="/images/{{this.products.img_id.[0]}}"
+                                                                box-shadow: 0px 0px 12px -5px rgb(69 69 69);
+                                                                padding: 1rem;
+                                                            ">
+                                                                <img src="/images/{{this.products.img_id.[0]}}"
                                                                         alt="product image" width="100px" height="100px"
                                                                         style="object-fit: cover;">
                                                                     <p class="mb-0">{{this.products.product_name}}</p>
-                                                                    <p class="mb-0">size</p>
-                                                                    <p class="mb-0">price :{{this.products.price}}</p>
+                                                                    <p class="mb-0">size:{{this.size}}</p>
+                                                                    <p class="mb-0">price :{{this.products.discount_price}}</p>
                                                                     <p>qty: {{this.qty}}</p>
-                                                                </div>
-                                                            </div>
+                                                            </div>                                                          
                                                             {{/each}}
-                                                        </div>
+                                                        
                                                         <div>
                                                             <h4>Total : {{this.orderObj.totalAmount}}</h4>
                                                         </div>
-                                                        <div>
+                                                        <div style="
+                                                            margin-bottom: 1rem;
+                                                            box-shadow: 0px 0px 9px -5px rgb(69 69 69);
+                                                            padding: 1rem;
+                                                        ">
                                                             <h4 class="mb-0 text-dark">Address</h4>
                                                             <p class="mb-0">{{this.orderObj.addr.name}}</p>
                                                             <p class="mb-0">{{this.orderObj.addr.address}}</p>
@@ -123,17 +120,7 @@
                                                             <p class="mb-0">{{this.orderObj.addr.pincode}}</p>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-outline-secondary"
-                                                        data-bs-dismiss="modal">
-                                                        Close
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{!-- product modal end! --}}
+                                  </div>
                                 </div>
                                 {{/each}}
                             </table>

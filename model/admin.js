@@ -70,11 +70,11 @@ exports.changeOrderStatus = (status, orderId) => {
           {
             $set: {
               "orderObj.status": status,
-              placed: true,
-              shipped: false,
-              pending: false,
-              deliverd: false,
-              canceled: false,
+              Placed: true,
+              Shipped: false,
+              Pending: false,
+              Deliverd: false,
+              Canceled: false,
               orderprossesing: false,
             },
           }
