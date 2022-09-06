@@ -49,7 +49,7 @@ router.post('/place-order', isAuth, controller.placeOrder);
 
 router.get('/orders', isAuth, controller.getOrders);
 
-router.post('/verify-payment', controller.verifyPayment)
+router.post('/verify-payment', isAuth, controller.verifyPayment)
 
 // router.get('/placeorder/add-new-adderss',isAuth, controller.getaddNewAdress)
 
@@ -74,9 +74,9 @@ router.post('/add-to-whishlist', isAuth, controller.add_to_whishlist)
 router.post('/wishlist/removeproduct', isAuth, controller.removeWishlist)
 
 
-router.get('/myaccount', controller.getMyAccount)
+router.get('/myaccount', isAuth, controller.getMyAccount)
 
-router.get('/myaccount/manage-address/', controller.getUserAddress)
+router.get('/myaccount/manage-address/',isAuth, controller.getUserAddress)
 
 router.get('/myaccount/myprofile', isAuth, controller.getMyProfile)
 
