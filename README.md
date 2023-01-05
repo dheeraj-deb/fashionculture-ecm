@@ -24,7 +24,6 @@ and Admin side.
 
 The application is deployed to AWS and can be accessed through the following link:
 
-[D-trendz](https://)
 
 ---
 
